@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="google-site-verification" content="8GzENS92uGV_b5kpYGNB4ucySApW6RhcP8TXrtIETZU" />
+<meta name="google-adsense-account" content="ca-pub-8448548118682911">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8448548118682911"
+     crossorigin="anonymous"></script>
+    <title>Atlas de Flora y Fauna de España</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <style>
+        /* --- ESTILOS VISUALES (MODERNOS) --- */
+        :root {
+            --primary: #2e7d32;
+            --accent: #ff9800;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        /* Estructura Base (PC) */
+        body { margin: 0; display: flex; height: 100vh; font-family: 'Lato', sans-serif; overflow: hidden; background: #e0f7fa; }
+        
+        /* PANEL LATERAL (PC) */
+        #sidebar {
+            width: 500px;
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            box-shadow: var(--shadow);
+            display: flex; flex-direction: column; z-index: 1002; position: relative;
+            border-right: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        #header {
+            background: linear-gradient(135deg, var(--primary), #1b5e20);
+            color: white; padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+        #header h1 { margin: 0; font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: 1px; }
+        #header p { margin: 5px 0 0; font-size: 14px; opacity: 0.9; }
+
+        #content { padding: 30px; overflow-y: auto; flex-grow: 1; scroll-behavior: smooth; }
+
+        /* MAPA (PC) */
+        #map { flex-grow: 1; height: 100%; background-color: #aad3df; z-index: 1; }
+
+        /* --- VERSIÓN MÓVIL (ARREGLADA) --- */
+        @media (max-width: 768px) {
+            body { flex-direction: column-reverse; }
+            
+            #sidebar {
+                width: 100%;
+                height: 50vh;
+                border-right: none;
+                border-top: 4px solid var(--primary);
+                border-radius: 20px 20px 0 0;
+            }
+
+            #map { width: 100%; height: 50vh; }
+
+            /* Espacio extra abajo para que el botón no se corte en el móvil */
+            #content { padding: 20px; padding-bottom: 120px; }
+            
+            .province-img { height: 90px; }
+        }
+
+        /* --- RESTO DE ESTILOS --- */
+        .loader {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; padding: 20px 40px; border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000;
+            font-family: 'Montserrat', sans-serif; font-weight: bold; color: var(--primary);
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        /* LIGHTBOX */
+        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(5px); }
+        #lightbox.active { display: flex; }
+        #lightbox img { max-width: 95%; max-height: 80vh; border-radius: 4px; box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 2px solid white; }
+        #caption { margin-top: 20px; color: white; font-family: 'Montserrat', sans-serif; background: rgba(255,255,255,0.1); padding: 10px 30px; border-radius: 30px; text-align: center; }
+        #close-btn { position: absolute; top: 20px; right: 20px; color: white; font-size: 40px; cursor: pointer; transition: 0.3s; background: rgba(0,0,0,0.5); width: 50px; height: 50px; text-align: center; line-height: 45px; border-radius: 50%; }
+
+        /* ELEMENTOS */
+        .eco-note {
+            background-color: #e8f5e9; color: #2e7d32; font-style: italic; font-size: 13px;
+            text-align: center; padding: 12px; border-radius: 8px; border: 1px dashed #66bb6a;
+            margin-top: 20px; margin-bottom: 10px; font-family: 'Montserrat', sans-serif;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+
+        .affiliate-container { margin-top: 15px; }
+        .btn-affiliate {
+            display: block; width: 100%; background: linear-gradient(45deg, #ff9800, #f57c00);
+            color: white; text-align: center; padding: 15px; border-radius: 12px;
+            text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 800;
+            font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(245, 124, 0, 0.3); transition: all 0.3s ease;
+            border: none; cursor: pointer; box-sizing: border-box;
+        }
+        .btn-affiliate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(245, 124, 0, 0.5); background: linear-gradient(45deg, #f57c00, #e65100); }
+
+        .gallery { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .province-img { width: calc(50% - 4px); height: 110px; object-fit: cover; border-radius: 8px; cursor: pointer; background-color: #eee; }
+        
+        .section-card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .section-title { color: #e65100; font-family: 'Montserrat', sans-serif; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; font-size: 1.1em; }
+        .info-text { font-size: 14px; line-height: 1.6; color: #455a64; text-align: justify; margin: 0; }
+        .parks-container { background: linear-gradient(to right, #f1f8e9, #fff); border-left: 5px solid #7cb342; padding: 15px; border-radius: 8px; margin-top: 20px; margin-bottom: 10px; }
+        .parks-title { font-weight: 800; color: #33691e; margin-bottom: 5px; display: block; font-family: 'Montserrat', sans-serif; }
+        h2.provincia-title { color: #1b5e20; font-family: 'Montserrat', sans-serif; font-size: 28px; border-bottom: 3px solid #a5d6a7; padding-bottom: 8px; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loader"><span>🌍</span> Cargando mapa...</div>
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <span id="close-btn">×</span>
+        <img id="lightbox-img" src="" alt="Imagen ampliada">
+        <div id="caption"></div>
+    </div>
+
+    <div id="sidebar">
+        <div id="header">
+            <h1>NATURALEZA DE ESPAÑA</h1>
+            <p>Atlas interactivo de biodiversidad provincial</p>
+        </div>
+        <div id="content">
+            <div style="text-align: center; color: #b0bec5; margin-top: 30%; padding: 0 20px;">
+                <h3 style="font-family: 'Montserrat'; font-size: 20px;">Selecciona una provincia</h3>
+                <p>Toca el mapa para ver la información.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+        var map = L.map('map', { zoomControl: false }).setView([40.0, -3.7], 6);
+        
+        // Control de zoom (arriba derecha en móvil para no molestar)
+        L.control.zoom({ position: 'topright' }).addTo(map);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors', maxZoom: 19
+        }).addTo(map);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19, zIndex: 100
+        }).addTo(map);
+
+        // --- BASE DE DATOS COMPLETA (CON SINÓNIMOS PARA QUE FUNCIONE TODO) ---
+        const provinciasData = [
+            // ANDALUCÍA
+            { name: "Almería", 
+              matchNames: ["Almería"],
+              affiliateText: "🏨 Hoteles en Cabo de Gata",
+              affiliateLink: "https://www.booking.com/searchresults.es.html?city=-370390", 
+              flora: "Única en Europa por su carácter semidesértico. Destacan los artos, el azufaifo y endemismos como el dragoncillo del Cabo de Gata. En las zonas de sierra interior encontramos bosques relictos de encina y pino carrasco.", 
+              fauna: "Aves propias del norte de África como el camachuelo trompetero o típicas de zonas esteparias como las gangas o las cogujadas. Uno de los réptiles más característicos es la tortuga mora. La costa presenta una gran riqueza de vida marina.", 
+              parks: "PN Cabo de Gata-Níjar, Paraje Natural Desierto de Tabernas, PN Sierra María-Los Vélez.",
+              images: [{url: "https://www.spain.info/export/sites/segtur/.content/imagenes/cabeceras-grandes/andalucia/parque_natural_cabo_gata_nijar_s_547778563.jpg", caption: "Parque Natural Cabo de Gata-Níjar"}, {url: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Amanecer_en_el_desierto.jpg", caption: "Desierto de Tabernas"}, {url: "https://queverenalmeria.es/wp-content/uploads/2021/10/castillo-velez-blanco-muela.jpg", caption: "Sierra María-Los Vélez"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Roselin_githagine_Bouhedma.jpg/640px-Roselin_githagine_Bouhedma.jpg", caption: "Camachuelo Trompetero"}] 
+            },
+            { name: "Cádiz", 
+              matchNames: ["Cádiz"],
+              affiliateText: "🏨 Alojamientos en Grazalema",
+              affiliateLink: "#",
+              flora: "El pinsapo (abeto endémico) en Grazalema. Alcornocales inmensos y vegetación dunar.", 
+              fauna: "Paso migratorio clave (Estrecho). Un ave a destacar es el ibis eremita, extinto en el resto de Europa, el Proyecto Eremita ha dado pie a parejas reproductoras en la provincia. Reptiles como el camaleón común y una abundante vida marina, que incluye cetáceos.", 
+              parks: "Estrecho de Gibraltar, PN Sierra de Grazalema, PN Los Alcornocales.",
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Parque_natural_de_Los_Alcornocales_%28C%C3%A1diz%2C_Espa%C3%B1a%29_06.jpg/640px-Parque_natural_de_Los_Alcornocales_%28C%C3%A1diz%2C_Espa%C3%B1a%29_06.jpg", caption: "Parque Natural Los Alcornocales: Foto de Tanja Freibott"}, {url: "https://images.pexels.com/photos/8508595/pexels-photo-8508595.jpeg?_gl=1*140vqsw*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjU5OTg5NjUkbzEkZzEkdDE3NjU5OTkyMDAkajMxJGwwJGgw", caption: "Zahara de la Sierra, Sierra de Grazalema: Foto de Agustín Piñero"}, {url: "https://images.pexels.com/photos/31833424/pexels-photo-31833424.jpeg?_gl=1*1y7kul7*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjU5OTg5NjUkbzEkZzEkdDE3NjU5OTkzNzckajUzJGwwJGgw", caption: "Estrecho de Gibraltar: Foto de Tom Lorber"}, {url: "https://images.pexels.com/photos/26619527/pexels-photo-26619527.jpeg?_gl=1*1qtb4le*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjU5OTg5NjUkbzEkZzEkdDE3NjU5OTk1NDckajEwJGwwJGgw", caption: "Ibis Eremita: Foto de Chris F"}] 
+            },
+            { name: "Córdoba", 
+              matchNames: ["Córdoba"],
+              affiliateText: "🏨 Dormir en Sierra Morena",
+              affiliateLink: "#",
+              flora: "Dominio absoluto del bosque mediterráneo y la dehesa en Sierra Morena, con encinas, alcornoques y quejigos centenarios. Las Sierras Subbéticas presentan vegetación rupícola sobre roca caliza.", 
+              fauna: "Territorio clave para la recuperación del Lince Ibérico, especialmente en las sierras de Cardeña y Montoro. Gran abundancia de ciervos y jabalíes. Zona de nidificación del Águila Imperial Ibérica y el Buitre Negro.", 
+              parks: "PN Sierras Subbéticas, PN Sierra de Cardeña y Montoro, PN Sierra de Hornachuelos.",
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Parque_natural_Sierras_Subb%C3%A9ticas_01.JPG/640px-Parque_natural_Sierras_Subb%C3%A9ticas_01.JPG", caption: "Parque Natural Sierras Subbéticas: Foto de Veinticuatro de Jahén"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Sierra_Morena_%28Obejo%29.jpg/640px-Sierra_Morena_%28Obejo%29.jpg", caption: "Sierra Morena desde el cerro de Obejo: Foto de Antonio Montilla Lucena"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Pantano_del_Yeguas._Parque_Natural_Sierra_de_Carde%C3%B1a_y_Montoro.JPG/640px-Pantano_del_Yeguas._Parque_Natural_Sierra_de_Carde%C3%B1a_y_Montoro.JPG", caption: "Pantano del Yeguas, Sierra de Cardeña y Montoro: Foto de Anajg2 "}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Sendero_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles%2C_Parque_natural_Sierra_de_Hornachuelos.jpg/640px-Sendero_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles%2C_Parque_natural_Sierra_de_Hornachuelos.jpg", caption: "Sendero de los Ángeles, Sierra de Hornachuelos: Foto de F.J. Fotografía"}]
+            },
+            { name: "Granada", 
+              matchNames: ["Granada"],
+              affiliateText: "🌲 Excursiones en Sierra Nevada",
+              affiliateLink: "#",
+              flora: "Sierra Nevada constituye el mayor reservorio de biodiversidad vegetal de Europa, con más de 60 endemismos exclusivos adaptados a la alta montaña, como la Manzanilla Real y la Estrella de las Nieves. En cotas bajas encontramos encinares, robledales y vegetación tropical en la costa.", 
+              fauna: "La Cabra Montés es el emblema de las cumbres granadinas, presentando aquí sus poblaciones más numerosas. Es hábitat de especies alpinas como el Acentor Alpino y de una inmensa variedad de insectos endémicos, incluyendo mariposas únicas en el mundo.", 
+              parks: "Parque Nacional de Sierra Nevada, PN Sierra de Baza, PN Sierra de Huétor.",
+              images: [{url: "https://images.unsplash.com/photo-1528048228650-0d2f4deedc67?q=80&w=940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", caption: "Estación de esquí de Sierra Nevada: Foto de Yeray Sánchez"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Arboretum_de_la_Alfaguara_%28Sierra_de_Hu%C3%A9tor%2C_Granada%29.jpg/640px-Arboretum_de_la_Alfaguara_%28Sierra_de_Hu%C3%A9tor%2C_Granada%29.jpg", caption: "Parque Natural Sierra de Huétor: Foto de José Antonio Huertas"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/SierraBaza2.JPG/640px-SierraBaza2.JPG", caption: "Parque Natural Sierra de Baza: Foto de Rimantas Lazdynas"}, {url: "https://images.pexels.com/photos/35251986/pexels-photo-35251986.jpeg?_gl=1*15h7x32*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjYwMDI4NDAkbzIkZzEkdDE3NjYwMDQ4NzkkajYwJGwwJGgw", caption: "Ejemplares de Cabra Montés: Foto de Leonardo Prascina, "}]
+            },
+            { name: "Huelva", 
+              matchNames: ["Huelva"],
+              affiliateText: "🏨 Alojamientos Cerca de Doñana",
+              affiliateLink: "#",
+              flora: "Gran contraste entre los extensos pinares de pino piñonero y matorral noble en la costa (Doñana) y las frondosas dehesas de encina y castaños en la Sierra de Aracena. Las marismas albergan vegetación halófila.", 
+              fauna: "Santuario histórico y principal núcleo reproductor del Lince Ibérico. Doñana es el humedal más importante de Europa, acogiendo millones de aves acuáticas (flamencos, espátulas, ánsares) durante la invernada y migración. Presencia destacada del Águila Imperial.", 
+              parks: "Parque Nacional de Doñana, PN Sierra de Aracena y Picos de Aroche, Paraje Natural Marismas del Odiel.",
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Do%C3%B1ana_1986_14.jpg/640px-Do%C3%B1ana_1986_14.jpg", caption: "Paruqe Nacional de Doñana: Foto de LBM1948"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Marismas_del_Odiel_%28Huelva%29_-_14855763889.jpg/640px-Marismas_del_Odiel_%28Huelva%29_-_14855763889.jpg", caption: "Marismas del Odiel: Foto de Jose A."}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sierra_de_Aracena_1986_02.jpg/640px-Sierra_de_Aracena_1986_02.jpg", caption: "Sierra de Aracena: Foto de LBM1948"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Lince_iberico_2.jpg/640px-Lince_iberico_2.jpg", caption: "Lince ibérico en Doñana: Foto de Fernando Diz"}]
+            },
+            { name: "Jaén", 
+              matchNames: ["Jaén"],
+              affiliateText: "🌲 Turismo Rural en Cazorla",
+              affiliateLink: "#",
+              flora: "Posee la superficie boscosa continua más grande de la Península (Sierras de Cazorla, Segura y Las Villas). Predominan los bosques de pino salgareño (laricio), encinares y robledales melojos. Cuenta con endemismos botánicos como la Violeta de Cazorla.", 
+              fauna: "Escenario de éxito en la reintroducción del Quebrantahuesos. Alberga grandes poblaciones de ungulados: cabra montés, ciervo, gamo y muflón. Es hogar de la Lagartija de Valverde, especie endémica de estas sierras.", 
+              parks: "PN Sierras de Cazorla, Segura y Las Villas, PN Sierra Mágina, PN Despeñaperros.",
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/R45.jpg/1200px-R45.jpg?20150301124519", caption: "PN Sierras de Cazorla, Segura y las Villas: Foto de Félix Rodríguez de la Fuente"}, {url: "https://via.placeholder.com/400x250?text=JAEN+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=JAEN+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=JAEN+4", caption: "Paisaje 4"}]
+            },
+            { name: "Málaga", 
+              matchNames: ["Málaga"],
+              affiliateText: "🎟️ Entradas Caminito del Rey",
+              affiliateLink: "#",
+              flora: "Destaca por los bosques de Pinsapo en la Sierra de las Nieves y Ronda, reliquias de climas pasados. Gran diversidad de orquídeas silvestres y vegetación termófila en la costa (palmitos, algarrobos).", 
+              fauna: "La Laguna de Fuente de Piedra acoge la mayor colonia de cría de flamencos de la península. En las zonas montañosas como El Torcal abunda la cabra montés, y en los ríos se conserva una buena población de nutrias.", 
+              parks: "Parque Nacional Sierra de las Nieves, PN Montes de Málaga, Torcal de Antequera, Laguna de Fuente de Piedra.",
+              images: [{url: "https://via.placeholder.com/400x250?text=MALAGA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=MALAGA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=MALAGA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=MALAGA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Sevilla", 
+              matchNames: ["Sevilla"],
+              affiliateText: "🏨 Hoteles en Sierra Norte",
+              affiliateLink: "#",
+              flora: "Paisaje dual: al sur, vegetación de marisma y cultivos de arrozal; al norte, magníficas dehesas de encina y alcornoque, con bosques de ribera muy bien conservados en cursos fluviales como el Huéznar.", 
+              fauna: "La avifauna acuática es espectacular en la zona de Doñana-Sevilla (morito, garza real, calamón). En la Sierra Norte se encuentran especies amenazadas como la Cigüeña Negra, el Águila Imperial y el Lince Ibérico.", 
+              parks: "PN Doñana (sector norte), PN Sierra Norte de Sevilla, Reserva Natural Complejo Endorreico de Lebrija.",
+              images: [{url: "https://via.placeholder.com/400x250?text=SEVILLA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=SEVILLA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=SEVILLA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=SEVILLA+4", caption: "Paisaje 4"}]
+            },
+
+            // ARAGÓN
+            { name: "Huesca", 
+              matchNames: ["Huesca"],
+              affiliateText: "🏔️ Excursiones en Ordesa",
+              affiliateLink: "#",
+              flora: "Vegetación de alta montaña pirenaica: bosques de pino negro, abeto y hayas en los valles húmedos. En las zonas supraforestales dominan los pastizales alpinos y flores emblemáticas como la Edelweiss y la Oreja de Oso.", 
+              fauna: "Refugio de la fauna alpina: el Quebrantahuesos es el rey de los cielos. En tierra habitan el Sarrio (rebeco pirenaico), la Marmota, el Urogallo y anfibios endémicos como el Tritón Pirenaico en los ibones.", 
+              parks: "Parque Nacional de Ordesa y Monte Perdido, PN Posets-Maladeta, PN Sierra y Cañones de Guara.",
+              images: [{url: "https://via.placeholder.com/400x250?text=HUESCA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=HUESCA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=HUESCA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=HUESCA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Teruel", 
+              matchNames: ["Teruel"],
+              affiliateText: "🏨 Alojamientos en Albarracín",
+              affiliateLink: "#",
+              flora: "Alberga algunos de los sabinares albares mejor conservados de Europa. Es característica la flora de los pinares de rodeno sobre sustrato silíceo y las especies esteparias en las parameras.", 
+              fauna: "La Laguna de Gallocanta es el principal punto de invernada de la Grulla Común en el sur de Europa. En las sierras del Maestrazgo abunda la Cabra Montés. Presencia notable de aves esteparias como la Alondra de Dupont.", 
+              parks: "Paisaje Protegido de los Pinares de Rodeno, Reserva Natural de la Laguna de Gallocanta.",
+              images: [{url: "https://via.placeholder.com/400x250?text=TERUEL+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=TERUEL+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=TERUEL+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=TERUEL+4", caption: "Paisaje 4"}]
+            },
+            { name: "Zaragoza", 
+              matchNames: ["Zaragoza"],
+              affiliateText: "🏨 Dormir cerca del Moncayo",
+              affiliateLink: "#",
+              flora: "Provincia de contrastes: desde la vegetación esteparia y árida de Los Monegros (sabinas, romeros, ontinas) hasta los frondosos hayedos y robledales en las laderas del Moncayo. Ricos sotos fluviales en el Ebro.", 
+              fauna: "Las estepas albergan poblaciones vitales de Avutarda, Sisón, Ganga y Cernícalo Primilla. El río Ebro es hábitat del amenazado Visón Europeo y del Castor. El Moncayo ofrece fauna forestal y de montaña.", 
+              parks: "PN del Moncayo, Reserva Natural de los Sotos y Galachos del Ebro.",
+              images: [{url: "https://via.placeholder.com/400x250?text=ZARAGOZA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=ZARAGOZA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=ZARAGOZA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=ZARAGOZA+4", caption: "Paisaje 4"}]
+            },
+
+            // ASTURIAS
+            { name: "Asturias", 
+              matchNames: ["Asturias"],
+              affiliateText: "🌲 Casas Rurales en Picos de Europa",
+              affiliateLink: "#",
+              flora: "La esencia del bosque atlántico: inmensos robledales (carbayedas) y hayedos como el de Muniellos. Abundancia de castaños, abedules, tejos centenarios y acebos. Prados verdes y vegetación alpina en Picos.", 
+              fauna: "Principal bastión del Oso Pardo Cantábrico. Hábitat crítico para el Urogallo (muy amenazado). Presencia de Lobo Ibérico, Rebeco, Nutria y Salmón Atlántico en sus ríos bien conservados.", 
+              parks: "Parque Nacional Picos de Europa, PN de Somiedo, PN de Redes, Reserva de Muniellos.",
+              images: [{url: "https://via.placeholder.com/400x250?text=ASTURIAS+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=ASTURIAS+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=ASTURIAS+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=ASTURIAS+4", caption: "Paisaje 4"}]
+            },
+
+            // BALEARES
+            { name: "Illes Balears", 
+              matchNames: ["Islas Baleares", "Illes Balears", "Baleares"],
+              affiliateText: "⛵ Excursiones a Cabrera",
+              affiliateLink: "#",
+              flora: "Las praderas submarinas de Posidonia Oceánica son Patrimonio de la Humanidad. En tierra, pino carrasco, acebuche, encina y matorral mediterráneo. Endemismos notables como el 'socarrell' en zonas batidas por el viento.", 
+              fauna: "Famosa por sus endemismos insulares exclusivos: el Ferreret (sapo partero) y la Lagartija Balear. Importancia crítica para aves marinas como el Virot (Pardela Balear) y el Águila Pescadora.", 
+              parks: "PN Marítimo-Terrestre de Cabrera, PN de S'Albufera de Mallorca, PN de Ses Salines (Ibiza).",
+              images: [{url: "https://via.placeholder.com/400x250?text=BALEARES+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=BALEARES+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=BALEARES+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=BALEARES+4", caption: "Paisaje 4"}]
+            },
+
+            // CANARIAS
+            { name: "Las Palmas", 
+              matchNames: ["Las Palmas"],
+              affiliateText: "🐪 Paseo en camello por Timanfaya",
+              affiliateLink: "#",
+              flora: "Vegetación xerófila única adaptada a la aridez y vulcanismo: Cardones y Tabaibas. En Gran Canaria destaca el Pino Canario y relictos de Laurisilva. Fuerteventura y Lanzarote presentan flora casi desértica de gran valor.", 
+              fauna: "El Lagarto Gigante de Gran Canaria es el reptil estrella. Fuerteventura es el santuario de la Hubara Canaria y el Guirre (Alimoche Canario). Riqueza extrema de cetáceos en sus aguas.", 
+              parks: "Parque Nacional de Timanfaya (Lanzarote), Dunas de Maspalomas, PN de Jandía.",
+              images: [{url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+4", caption: "Paisaje 4"}]
+            },
+            { name: "Santa Cruz de Tenerife", 
+              matchNames: ["Santa Cruz de Tenerife"],
+              affiliateText: "🚠 Teleférico del Teide",
+              affiliateLink: "#",
+              flora: "Muestra la zonación altitudinal completa: matorral costero, Laurisilva (bosque de niebla) en Garajonay y Anaga, Pinar Canario y vegetación de alta montaña en el Teide (Violeta del Teide, Retama).", 
+              fauna: "Pinzón Azul del Teide (endemismo). Palomas de la laurisilva (Rabiche y Turqué). El Lagarto Gigante de El Hierro, salvado de la extinción. Tortugas marinas residentes.", 
+              parks: "Parque Nacional del Teide, PN de Garajonay (La Gomera), PN Caldera de Taburiente (La Palma).",
+              images: [{url: "https://via.placeholder.com/400x250?text=TENERIFE+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=TENERIFE+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=TENERIFE+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=TENERIFE+4", caption: "Paisaje 4"}]
+            },
+
+            // CANTABRIA
+            { name: "Cantabria", 
+              matchNames: ["Cantabria"],
+              affiliateText: "🎟️ Entradas Cabárceno",
+              affiliateLink: "#",
+              flora: "Paisaje siempre verde dominado por bosques caducifolios de roble y haya, alternados con praderías de uso ganadero. En las zonas altas de Picos de Europa flora alpina calcícola.", 
+              fauna: "Territorio osero por excelencia (Oso Pardo). Importantes poblaciones de Lobo Ibérico y Buitre Leonado. En la costa, las marismas (como Santoña) son vitales para aves acuáticas migratorias.", 
+              parks: "Parque Nacional Picos de Europa, PN Saja-Besaya, PN Collados del Asón.",
+              images: [{url: "https://via.placeholder.com/400x250?text=CANTABRIA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=CANTABRIA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=CANTABRIA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=CANTABRIA+4", caption: "Paisaje 4"}]
+            },
+
+            // CASTILLA Y LEÓN
+            { name: "Ávila", 
+              matchNames: ["Ávila"],
+              affiliateText: "🏨 Parador de Gredos",
+              affiliateLink: "#",
+              flora: "La Sierra de Gredos marca el paisaje con sus piornales serranos y extensos pinares de pino silvestre. En el Valle del Tiétar el clima más suave permite bosques de roble melojo y castaños.", 
+              fauna: "La Cabra Montés de Gredos es una subespecie única y emblemática. Es zona de grandes rapaces: Águila Imperial Ibérica, Buitre Negro y Buitre Leonado. Presencia del Sapo de Gredos.", 
+              parks: "Parque Regional Sierra de Gredos, Reserva Natural Valle de Iruelas.",
+              images: [{url: "https://via.placeholder.com/400x250?text=AVILA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=AVILA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=AVILA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=AVILA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Burgos", 
+              matchNames: ["Burgos"],
+              affiliateText: "🏨 Hoteles en Orbaneja del Castillo",
+              affiliateLink: "#",
+              flora: "Gran diversidad por su posición de transición: desde hayedos y robledales en el norte hasta sabinares del Arlanza (los más extensos del mundo) y encinares. Cañones fluviales con vegetación rupícola.", 
+              fauna: "El Lobo Ibérico tiene una fuerte presencia en el norte. Las Hoces del Rudrón y Ebro albergan grandes colonias de Buitre Leonado. Nutrias y desmanes en los ríos.", 
+              parks: "Hoces del Alto Ebro y Rudrón, Cañón del Río Lobos, Lagunas Glaciares de Neila.",
+              images: [{url: "https://via.placeholder.com/400x250?text=BURGOS+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=BURGOS+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=BURGOS+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=BURGOS+4", caption: "Paisaje 4"}]
+            },
+            { name: "León", 
+              matchNames: ["León"],
+              affiliateText: "🏨 Turismo Rural en Las Médulas",
+              affiliateLink: "#",
+              flora: "Riqueza forestal inmensa: Hayedos (como el Faedo de Ciñera), robledales, abedulares y castaños centenarios en El Bierzo. Flora alpina en Picos de Europa.", 
+              fauna: "Tierra de Osos Pardos y Urogallos Cantábricos (en situación crítica). El Lobo Ibérico es abundante. Rebecos en las cumbres y truchas en sus ríos de montaña.", 
+              parks: "Parque Nacional Picos de Europa, Las Médulas, Los Ancares Leoneses.",
+              images: [{url: "https://via.placeholder.com/400x250?text=LEON+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=LEON+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=LEON+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=LEON+4", caption: "Paisaje 4"}]
+            },
+            { name: "Palencia", 
+              matchNames: ["Palencia"],
+              affiliateText: "🏨 Alojamientos en la Montaña Palentina",
+              affiliateLink: "#",
+              flora: "La Montaña Palentina es un tesoro botánico con tejedas milenarias (Tejada de Tosande), hayedos y robledales. En la zona sur, estepas cerealistas.", 
+              fauna: "Refugio oriental del Oso Pardo Cantábrico. Gran densidad de Ciervo y Jabalí. El Gato Montés es frecuente en sus bosques.", 
+              parks: "PN Montaña Palentina (Fuentes Carrionas y Fuente Cobre).",
+              images: [{url: "https://via.placeholder.com/400x250?text=PALENCIA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=PALENCIA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=PALENCIA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=PALENCIA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Salamanca", 
+              matchNames: ["Salamanca"],
+              affiliateText: "🚢 Crucero Fluvial Arribes",
+              affiliateLink: "#",
+              flora: "El paisaje por excelencia es la Dehesa de encina (Campo Charro), un ecosistema humanizado de gran valor. En la Sierra de Francia encontramos robles melojos y castaños.", 
+              fauna: "Zona de expansión del Lince Ibérico. Hogar de la Cigüeña Negra (muy esquiva) y del Buitre Negro. La fauna de las dehesas incluye al Cerdo Ibérico y al Toro de Lidia.", 
+              parks: "PN Arribes del Duero, PN Las Batuecas-Sierra de Francia.",
+              images: [{url: "https://via.placeholder.com/400x250?text=SALAMANCA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=SALAMANCA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=SALAMANCA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=SALAMANCA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Segovia", 
+              matchNames: ["Segovia"],
+              affiliateText: "🛶 Piragüismo en las Hoces del Duratón",
+              affiliateLink: "#",
+              flora: "Famosa por los pinares de pino silvestre de Valsaín (excelente madera). En las zonas llanas dominan los sabinares y encinares. Hayedos relictos en la sierra.", 
+              fauna: "Las Hoces del Duratón albergan una de las mayores colonias de Buitre Leonado de Europa. Águila Real y Alimoche también presentes.", 
+              parks: "PN Hoces del Río Duratón, PN Sierra de Guadarrama, Hoces del Río Riaza.",
+              images: [{url: "https://via.placeholder.com/400x250?text=SEGOVIA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=SEGOVIA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=SEGOVIA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=SEGOVIA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Soria", 
+              matchNames: ["Soria"],
+              affiliateText: "🏨 Hoteles en Cañón del Río Lobos",
+              affiliateLink: "#",
+              flora: "Tierra de bosques: posee la mayor masa de Sabina Albar del mundo (Calatañazor). Extensos pinares y uno de los acebales más grandes de Europa (Garagüeta).", 
+              fauna: "El Lobo Ibérico ha recolonizado la zona. Abundancia de Corzo, Ciervo y Jabalí. Aves rapaces forestales y esteparias en los páramos.", 
+              parks: "PN Cañón del Río Lobos, Laguna Negra y Circos Glaciares de Urbión.",
+              images: [{url: "https://via.placeholder.com/400x250?text=SORIA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=SORIA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=SORIA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=SORIA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Valladolid", 
+              matchNames: ["Valladolid"],
+              affiliateText: "🏨 Alojamientos en Rueda",
+              affiliateLink: "#",
+              flora: "Dominio del pino piñonero en la 'Tierra de Pinares' y vegetación de ribera (álamos, sauces) a lo largo del Duero. En los páramos, vegetación esteparia.", 
+              fauna: "El Lobo se encuentra al sur del Duero. Es una provincia clave para la Avutarda (el ave voladora más pesada) y otras aves de llanura como el Sisón.", 
+              parks: "Reserva Natural Riberas de Castronuño-Vega del Duero.",
+              images: [{url: "https://via.placeholder.com/400x250?text=VALLADOLID+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=VALLADOLID+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=VALLADOLID+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=VALLADOLID+4", caption: "Paisaje 4"}]
+            },
+            { name: "Zamora", 
+              matchNames: ["Zamora"],
+              affiliateText: "🏨 Turismo Rural en Sanabria",
+              affiliateLink: "#",
+              flora: "Encinares y robledales en Sanabria y Sayago. Bosques de galería en los ríos y vegetación de cañones en los Arribes.", 
+              fauna: "La Sierra de la Culebra alberga la mayor densidad de Lobos de Europa occidental y grandes ciervos. En los Arribes destaca la Cigüeña Negra y el Águila Perdicera.", 
+              parks: "PN Lago de Sanabria, PN Arribes del Duero, Reserva de la Sierra de la Culebra.",
+              images: [{url: "https://via.placeholder.com/400x250?text=ZAMORA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=ZAMORA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=ZAMORA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=ZAMORA+4", caption: "Paisaje 4"}]
+            },
+
+            // CASTILLA-LA MANCHA
+            { name: "Albacete", 
+              matchNames: ["Albacete"],
+              affiliateText: "🏨 Hoteles en Lagunas de Ruidera",
+              affiliateLink: "#",
+              flora: "Bosques de pino carrasco y sabinares. Espectacular vegetación palustre en las Lagunas de Ruidera. Flora endémica en las zonas altas de las sierras de Alcaraz y Segura.", 
+              fauna: "Águila Perdicera y Cabra Montés en las zonas rocosas. Las lagunas atraen a multitud de aves acuáticas. Nutrias en los ríos de montaña.", 
+              parks: "PN Lagunas de Ruidera, PN Calares del Mundo y de la Sima.",
+              images: [{url: "https://via.placeholder.com/400x250?text=ALBACETE+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=ALBACETE+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=ALBACETE+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=ALBACETE+4", caption: "Paisaje 4"}]
+            },
+            { name: "Ciudad Real", 
+              matchNames: ["Ciudad Real"],
+              affiliateText: "🚙 Visita 4x4 en Cabañeros",
+              affiliateLink: "#",
+              flora: "Humedales únicos en Europa (Las Tablas) con masiega y carrizos. Bosque mediterráneo muy bien conservado en Cabañeros y extensas dehesas volcánicas.", 
+              fauna: "Territorio del Lince Ibérico y el Águila Imperial. Las zonas húmedas son vitales para aves como el Pato Colorado y el Somormujo. Ciervos en la 'raña' de Cabañeros.", 
+              parks: "Parque Nacional de Cabañeros, Parque Nacional de las Tablas de Daimiel.",
+              images: [{url: "https://via.placeholder.com/400x250?text=CIUDAD+REAL+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=CIUDAD+REAL+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=CIUDAD+REAL+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=CIUDAD+REAL+4", caption: "Paisaje 4"}]
+            },
+            { name: "Cuenca", 
+              matchNames: ["Cuenca"],
+              affiliateText: "🏨 Casas Rurales en la Serranía",
+              affiliateLink: "#",
+              flora: "Inmensos pinares de pino negral (Serranía de Cuenca). Formaciones kársticas con flora rupícola especializada. Sabinares y tejedas relictas.", 
+              fauna: "Abundancia de ungulados: Ciervo, Gamo, Muflón y Jabalí. Aves rapaces forestales (Azor, Gavilán) y rupícolas en las hoces.", 
+              parks: "PN Serranía de Cuenca, Alto Tajo.",
+              images: [{url: "https://via.placeholder.com/400x250?text=CUENCA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=CUENCA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=CUENCA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=CUENCA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Guadalajara", 
+              matchNames: ["Guadalajara"],
+              affiliateText: "🏨 Alojamientos en los Pueblos Negros",
+              affiliateLink: "#",
+              flora: "El Hayedo de Tejera Negra es uno de los más meridionales de Europa. Bosques de roble melojo y pino silvestre en la sierra norte. Sabinares en el Alto Tajo.", 
+              fauna: "El Lobo ibérico está presente en la sierra. Corzo, Águila Real y Buitre Leonado son comunes. Los ríos puros albergan truchas y nutrias.", 
+              parks: "PN Alto Tajo, PN Sierra Norte de Guadalajara, Hayedo de Tejera Negra.",
+              images: [{url: "https://via.placeholder.com/400x250?text=GUADALAJARA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=GUADALAJARA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=GUADALAJARA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=GUADALAJARA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Toledo", 
+              matchNames: ["Toledo"],
+              affiliateText: "🏨 Hoteles con Encanto en Toledo",
+              affiliateLink: "#",
+              flora: "Monte mediterráneo en los Montes de Toledo y vegetación esteparia en la Mancha. Dehesas y encinares.", 
+              fauna: "Lince Ibérico en expansión. Las estepas cerealistas son refugio de la Avutarda y el Sisón. Grandes rapaces como el Águila Imperial.", 
+              parks: "Parque Nacional de Cabañeros (parte).",
+              images: [{url: "https://via.placeholder.com/400x250?text=TOLEDO+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=TOLEDO+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=TOLEDO+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=TOLEDO+4", caption: "Paisaje 4"}]
+            },
+
+            // CATALUÑA
+            { name: "Barcelona", 
+              matchNames: ["Barcelona"],
+              affiliateText: "🏨 Hoteles en Montseny",
+              affiliateLink: "#",
+              flora: "Vegetación mediterránea litoral (encinares, pino carrasco) que da paso a hayedos y abetales en el Montseny. Humedales en el Delta del Llobregat.", 
+              fauna: "El Jabalí es muy abundante en Collserola. Tejón, Gineta y aves rapaces como el Azor. Fauna acuática en el delta.", 
+              parks: "PN del Montseny, PN de Montserrat, PN Sant Llorenç del Munt.",
+              images: [{url: "https://via.placeholder.com/400x250?text=BARCELONA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=BARCELONA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=BARCELONA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=BARCELONA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Girona", 
+              matchNames: ["Girona"],
+              affiliateText: "🔥 Excursión a Volcanes Garrotxa",
+              affiliateLink: "#",
+              flora: "Hayedos excepcionales sobre suelo volcánico en la Garrotxa (Fageda d'en Jordà). Alcornoques en el Empordà y vegetación alpina en el Pirineo oriental.", 
+              fauna: "Aves marinas en Cap de Creus. Nutria en los ríos y una rica comunidad de anfibios. Cigüeñas y aves acuáticas en los Aiguamolls.", 
+              parks: "PN Zona Volcánica de la Garrotxa, Aiguamolls de l'Empordà, Cap de Creus.",
+              images: [{url: "https://via.placeholder.com/400x250?text=GIRONA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=GIRONA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=GIRONA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=GIRONA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Lleida", 
+              matchNames: ["Lleida"],
+              affiliateText: "🚙 Taxi 4x4 Aigüestortes",
+              affiliateLink: "#",
+              flora: "Paisaje de alta montaña: bosques de Abeto y Pino Negro. Prados alpinos y vegetación de turbera en Aigüestortes.", 
+              fauna: "El Quebrantahuesos, Urogallo y Perdiz Nival son emblemáticos. Abundancia de Rebeco (Sarrio) y Marmota.", 
+              parks: "Parque Nacional de Aigüestortes i Estany de Sant Maurici, PN Alt Pirineu.",
+              images: [{url: "https://via.placeholder.com/400x250?text=LLEIDA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=LLEIDA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=LLEIDA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=LLEIDA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Tarragona", 
+              matchNames: ["Tarragona"],
+              affiliateText: "🛳️ Crucero por el Delta del Ebro",
+              affiliateLink: "#",
+              flora: "El Delta del Ebro domina con sus arrozales, carrizales y vegetación de ribera. En el interior (Els Ports), hayedos relictos y pino negral.", 
+              fauna: "El Delta es vital para Flamencos, Garzas Imperiales y multitud de limícolas. Tortuga Mediterránea y Cabra Montés en el interior.", 
+              parks: "PN Delta del Ebro, PN Els Ports, PN Serra de Montsant.",
+              images: [{url: "https://via.placeholder.com/400x250?text=TARRAGONA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=TARRAGONA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=TARRAGONA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=TARRAGONA+4", caption: "Paisaje 4"}]
+            },
+
+            // COMUNIDAD VALENCIANA - NOMBRES CORREGIDOS
+            { name: "Alacant/Alicante", 
+              matchNames: ["Alicante", "Alacant", "Alacant/Alicante"],
+              affiliateText: "🏨 Hoteles en Calpe",
+              affiliateLink: "#",
+              flora: "Vegetación termófila: Palmitos, Esparto y vegetación adaptada a la sal en las lagunas. Endemismos rupícolas en el Peñón de Ifach.", 
+              fauna: "Aves marinas (Cormorán moñudo, Gaviotas) y limícolas en las salinas (Flamencos, Avocetas). Fartet (pez) en charcas salinas.", 
+              parks: "PN Peñón de Ifach, PN Lagunas de la Mata y Torrevieja, PN Montgó.",
+              images: [{url: "https://via.placeholder.com/400x250?text=ALICANTE+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=ALICANTE+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=ALICANTE+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=ALICANTE+4", caption: "Paisaje 4"}]
+            },
+            { name: "Castelló/Castellón", 
+              matchNames: ["Castellón", "Castelló", "Castelló/Castellón"],
+              affiliateText: "🏨 Turismo Rural Sierra Espadán",
+              affiliateLink: "#",
+              flora: "Bosques de Alcornoque en la Sierra de Espadán (muy singulares). Pino rodeno y Palmito (única palmera nativa europea).", 
+              fauna: "Águila Perdicera, Cabra Montés y una rica comunidad de Murciélagos cavernícolas. Aves marinas en las Islas Columbretes.", 
+              parks: "PN Sierra de Espadán, PN Desert de les Palmes, Reserva Natural Islas Columbretes.",
+              images: [{url: "https://via.placeholder.com/400x250?text=CASTELLON+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=CASTELLON+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=CASTELLON+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=CASTELLON+4", caption: "Paisaje 4"}]
+            },
+            { name: "València/Valencia", 
+              matchNames: ["Valencia", "València", "València/Valencia"],
+              affiliateText: "🚣 Paseo en barca Albufera",
+              affiliateLink: "#",
+              flora: "La Albufera presenta vegetación de marjal y dunas litorales. En el interior, carrascales y vegetación de ribera en el Turia y Cabriel.", 
+              fauna: "El Samaruc es un pez endémico en peligro crítico. La Albufera es vital para Garzas, Anátidas y charranes. Nutrias en el Cabriel.", 
+              parks: "PN de la Albufera, PN del Turia, Hoces del Cabriel.",
+              images: [{url: "https://via.placeholder.com/400x250?text=VALENCIA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=VALENCIA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=VALENCIA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=VALENCIA+4", caption: "Paisaje 4"}]
+            },
+
+            // EXTREMADURA
+            { name: "Badajoz", 
+              matchNames: ["Badajoz"],
+              affiliateText: "🦅 Observación de Aves",
+              affiliateLink: "#",
+              flora: "El reino de la Dehesa de encina y alcornoque. Grandes extensiones de pastizales y zonas esteparias en La Serena.", 
+              fauna: "Principal zona de invernada de la Grulla Común. Grandes poblaciones de Avutarda y Sisón. Presencia de Lince Ibérico.", 
+              parks: "PN Cornalvo, ZEPA de La Serena.",
+              images: [{url: "https://via.placeholder.com/400x250?text=BADAJOZ+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=BADAJOZ+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=BADAJOZ+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=BADAJOZ+4", caption: "Paisaje 4"}]
+            },
+            { name: "Cáceres", 
+              matchNames: ["Cáceres"],
+              affiliateText: "🏨 Alojamientos en Monfragüe",
+              affiliateLink: "#",
+              flora: "Bosque mediterráneo muy denso en Monfragüe. Robledales y castaños en el norte (Gata, Jerte). Cerezos en flor.", 
+              fauna: "Monfragüe es la meca mundial de las rapaces: Buitre Negro, Águila Imperial, Buitre Leonado, Alimoche y Cigüeña Negra.", 
+              parks: "Parque Nacional de Monfragüe, Reserva Natural Garganta de los Infiernos.",
+              images: [{url: "https://via.placeholder.com/400x250?text=CACERES+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=CACERES+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=CACERES+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=CACERES+4", caption: "Paisaje 4"}]
+            },
+
+            // GALICIA
+            { name: "A Coruña", 
+              matchNames: ["A Coruña", "La Coruña"],
+              affiliateText: "🌊 Hoteles Costa da Morte",
+              affiliateLink: "#",
+              flora: "Bosque atlántico costero (Fragas do Eume) con helechos relictos del Terciario. Vegetación dunar y matorral de tojo y brezo.", 
+              fauna: "Aves marinas en la costa. Paso migratorio de cetáceos. Anfibios como la Salamandra Rabilarga.", 
+              parks: "PN Fragas do Eume, PN Dunas de Corrubedo.",
+              images: [{url: "https://via.placeholder.com/400x250?text=A+CORUÑA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=A+CORUÑA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=A+CORUÑA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=A+CORUÑA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Lugo", 
+              matchNames: ["Lugo"],
+              affiliateText: "🏨 Casas Rurales en Ancares",
+              affiliateLink: "#",
+              flora: "Bosques mixtos atlánticos, castaños centenarios y abedules en los Ancares y O Courel. Prados siempre verdes.", 
+              fauna: "Límite occidental del Oso Pardo Cantábrico. Lobo y Corzo abundantes. El Urogallo sobrevive precariamente.", 
+              parks: "Reserva de la Biosfera Os Ancares Lucenses, Playa de las Catedrales.",
+              images: [{url: "https://via.placeholder.com/400x250?text=LUGO+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=LUGO+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=LUGO+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=LUGO+4", caption: "Paisaje 4"}]
+            },
+            { name: "Ourense", 
+              matchNames: ["Ourense", "Orense"],
+              affiliateText: "🍷 Catamaran Cañones del Sil",
+              affiliateLink: "#",
+              flora: "Zona de transición climática: bosques de 'carballo' (roble) y alcornoques. Viñedos en bancales (Ribeira Sacra).", 
+              fauna: "Lobo ibérico, Águila Real y reptiles. Fauna forestal como la Gineta y la Marta.", 
+              parks: "PN Baixa Limia-Serra do Xurés, Cañón del Sil.",
+              images: [{url: "https://via.placeholder.com/400x250?text=OURENSE+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=OURENSE+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=OURENSE+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=OURENSE+4", caption: "Paisaje 4"}]
+            },
+            { name: "Pontevedra", 
+              matchNames: ["Pontevedra"],
+              affiliateText: "🎟️ Barco a Islas Cíes",
+              affiliateLink: "#",
+              flora: "Laurel, tojos y flora insular atlántica en las islas Cíes y Ons. Bosques de ribera y eucaliptales.", 
+              fauna: "Importantes colonias de Cormorán Moñudo y Gaviota Patiamarilla. Riquísima fauna submarina.", 
+              parks: "Parque Nacional de las Islas Atlánticas de Galicia, PN Monte Aloia.",
+              images: [{url: "https://via.placeholder.com/400x250?text=PONTEVEDRA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=PONTEVEDRA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=PONTEVEDRA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=PONTEVEDRA+4", caption: "Paisaje 4"}]
+            },
+
+            // MADRID
+            { name: "Madrid", 
+              matchNames: ["Madrid", "Comunidad de Madrid"],
+              affiliateText: "🌲 Excursiones en Guadarrama",
+              affiliateLink: "#",
+              flora: "Zonación clara: Piornales de alta montaña y pinares de pino silvestre en la sierra; encinares y retamares en la rampa y sur.", 
+              fauna: "Cabra Montés en La Pedriza y Peñalara. Buitre Negro (gran colonia en Rascafría) y Águila Imperial. Riqueza de anfibios.", 
+              parks: "Parque Nacional Sierra de Guadarrama, PR Cuenca Alta del Manzanares.",
+              images: [{url: "https://via.placeholder.com/400x250?text=MADRID+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=MADRID+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=MADRID+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=MADRID+4", caption: "Paisaje 4"}]
+            },
+
+            // MURCIA
+            { name: "Murcia", 
+              matchNames: ["Murcia", "Región de Murcia"],
+              affiliateText: "🏨 Hoteles en La Manga",
+              affiliateLink: "#",
+              flora: "Bosques de pino carrasco y sabina mora (Tetraclinis articulata), un endemismo iberoafricano. Vegetación termófila y de saladares.", 
+              fauna: "Hogar de la Tortuga Mora. Presencia de Arruí (introducido) en Sierra Espuña. Águila Real y Búho Real. Fartet en aguas salinas.", 
+              parks: "PN Sierra Espuña, Salinas de San Pedro del Pinatar, Calblanque.",
+              images: [{url: "https://via.placeholder.com/400x250?text=MURCIA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=MURCIA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=MURCIA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=MURCIA+4", caption: "Paisaje 4"}]
+            },
+
+            // NAVARRA
+            { name: "Navarra", 
+              matchNames: ["Navarra", "Nafarroa", "Comunidad Foral de Navarra"],
+              affiliateText: "🌲 Visitar Selva de Irati",
+              affiliateLink: "#",
+              flora: "Contrastes extremos: el segundo mayor hayedo-abetal de Europa (Selva de Irati) en el norte, frente al paisaje desértico de las Bardenas Reales.", 
+              fauna: "Oso Pardo (esporádico en Pirineos), Quebrantahuesos, Visón Europeo en los ríos y aves esteparias en la Ribera.", 
+              parks: "PN Bardenas Reales, PN Señorío de Bertiz, Selva de Irati.",
+              images: [{url: "https://via.placeholder.com/400x250?text=NAVARRA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=NAVARRA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=NAVARRA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=NAVARRA+4", caption: "Paisaje 4"}]
+            },
+
+            // PAÍS VASCO - NOMBRES CORREGIDOS (SOLUCIÓN DEFINITIVA)
+            { 
+              name: "Álava", 
+              matchNames: ["Álava", "Araba", "Araba/Álava", "Alava"],
+              affiliateText: "🍷 Ruta del Vino Rioja Alavesa",
+              affiliateLink: "#",
+              flora: "Transición atlántico-mediterránea: Hayedos en Gorbeia y robledales (marojales) en Izki. Viñedos en la Rioja Alavesa.", 
+              fauna: "Visón Europeo (muy amenazado), Gato Montés, Pícidos (pájaros carpinteros) y rapaces forestales.", 
+              parks: "PN Gorbeia, PN Valderejo, PN Izki.",
+              images: [{url: "https://via.placeholder.com/400x250?text=ALAVA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=ALAVA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=ALAVA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=ALAVA+4", caption: "Paisaje 4"}]
+            },
+            { 
+              name: "Guipúzcoa", 
+              matchNames: ["Guipúzcoa", "Gipuzkoa", "Guipuzcoa", "Gipuzkoa/Guipúzcoa", "Provincia de Guipúzcoa"],
+              affiliateText: "🌊 Geoparque Flysch Zumaia", 
+              affiliateLink: "#",
+              flora: "Bosque atlántico, encinares cantábricos raros en la costa caliza. Prados de siega.", 
+              fauna: "Buitre Leonado, Alimoche y fauna marina en el Flysch de Zumaia.", 
+              parks: "PN Aralar, PN Aiako Harria, Geoparque de la Costa Vasca.",
+              images: [{url: "https://via.placeholder.com/400x250?text=GUIPUZCOA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=GUIPUZCOA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=GUIPUZCOA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=GUIPUZCOA+4", caption: "Paisaje 4"}]
+            },
+            { 
+              name: "Vizcaya", 
+              matchNames: ["Vizcaya", "Bizkaia", "Biscay", "Bizkaia/Vizcaya"],
+              affiliateText: "🏰 Excursión a Gaztelugatxe", 
+              affiliateLink: "#",
+              flora: "Encinar cantábrico en Urdaibai, bosques de ribera y plantaciones forestales. Vegetación de marisma.", 
+              fauna: "Urdaibai es clave para la migración: Espátulas, Águila Pescadora y limícolas.", 
+              parks: "Reserva de la Biosfera de Urdaibai, PN Gorbeia, PN Armañón.",
+              images: [{url: "https://via.placeholder.com/400x250?text=VIZCAYA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=VIZCAYA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=VIZCAYA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=VIZCAYA+4", caption: "Paisaje 4"}]
+            },
+
+            // LA RIOJA
+            { name: "La Rioja", 
+              matchNames: ["La Rioja"],
+              affiliateText: "🍷 Bodegas en La Rioja",
+              affiliateLink: "#",
+              flora: "Hayedos y pinares de pino silvestre en la Sierra de la Demanda y Cebollera. En el valle, paisaje de viñedos y sotos del Ebro.", 
+              fauna: "Perdiz Pardilla, Ciervo, Visón Europeo y Nutria en los ríos.", 
+              parks: "PN Sierra de Cebollera, Reserva Natural de los Sotos de Alfaro.",
+              images: [{url: "https://via.placeholder.com/400x250?text=RIOJA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=RIOJA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=RIOJA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=RIOJA+4", caption: "Paisaje 4"}]
+            },
+
+            // CIUDADES AUTÓNOMAS
+            { name: "Ceuta", 
+              matchNames: ["Ceuta"],
+              affiliateText: "🚢 Ferry a Ceuta",
+              affiliateLink: "#",
+              flora: "Fusión mar y montaña con influencias atlánticas y mediterráneas. Bosques de Pinos y Alcornoques.", 
+              fauna: "Paso obligado de aves migratorias. Riquísima fauna marina por la confluencia de mares.", 
+              parks: "Zona LIC Calamocarro-Benzú, Monte Hacho.",
+              images: [{url: "https://via.placeholder.com/400x250?text=CEUTA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=CEUTA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=CEUTA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=CEUTA+4", caption: "Paisaje 4"}]
+            },
+            { name: "Melilla", 
+              matchNames: ["Melilla"],
+              affiliateText: "🏨 Hoteles en Melilla",
+              affiliateLink: "#",
+              flora: "Destaca el Araar (sabina mora), especie iberoafricana, y vegetación adaptada a la sequía y salinidad.", 
+              fauna: "Invertebrados endémicos, Gaviota de Audouin y reptiles norteafricanos.", 
+              parks: "Barranco del Nano.",
+              images: [{url: "https://via.placeholder.com/400x250?text=MELILLA+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=MELILLA+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=MELILLA+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=MELILLA+4", caption: "Paisaje 4"}]
+            }
+        ];
+
+        // 3. CARGAR SILUETAS (GEOJSON) Y VINCULAR DATOS
+        const geoJsonUrl = 'https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/spain-provinces.geojson';
+        
+        document.getElementById('loader').style.display = 'flex';
+
+        fetch(geoJsonUrl)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loader').style.display = 'none';
+                
+                L.geoJSON(data, {
+                    style: style,
+                    onEachFeature: onEachFeature
+                }).addTo(map);
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                document.getElementById('loader').innerHTML = "<span style='color:red'>Error cargando mapa</span>";
+            });
+
+        // 4. ESTILOS INTERACTIVOS
+        function style(feature) {
+            return {
+                fillColor: '#2e7d32',
+                weight: 1,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.05
+            };
+        }
+
+        function highlightFeature(e) {
+            var layer = e.target;
+            layer.setStyle({
+                weight: 3,
+                color: '#ff9800',
+                dashArray: '',
+                fillOpacity: 0.4,
+                fillColor: '#ff9800'
+            });
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) { layer.bringToFront(); }
+        }
+
+        function resetHighlight(e) {
+            var layer = e.target;
+            layer.setStyle({
+                weight: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.05,
+                fillColor: '#2e7d32'
+            });
+        }
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: (e) => {
+                    zoomToFeature(e);
+                    showInfo(feature.properties.name);
+                }
+            });
+        }
+
+        // 5. LÓGICA DE DATOS MEJORADA (SOLUCIÓN DEL PROBLEMA)
+        function normalize(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        }
+
+        function showInfo(mapName) {
+            const mapNameNorm = normalize(mapName);
+            
+            // BUSCADOR INTELIGENTE
+            const data = provinciasData.find(p => {
+                if (normalize(p.name) === mapNameNorm) return true;
+                if (p.matchNames) {
+                    return p.matchNames.some(alias => normalize(alias) === mapNameNorm);
+                }
+                return false;
+            });
+
+            if (data) {
+                const htmlFotos = data.images.map(img => 
+                    `<img src="${img.url}" class="province-img" onclick="openLightbox('${img.url}', '${img.caption}')">`
+                ).join('');
+
+                // --- CAMBIO PARA PÁGINA PUENTE ---
+        // En lugar de mirar si hay link, mandamos SIEMPRE a la página de ofertas
+        // pasando el nombre de la provincia en la URL (?sitio=Nombre)
+        const affiliateBtn = `<a href="ofertas.html?sitio=${encodeURIComponent(data.name)}" target="_blank" class="btn-affiliate"><span>🏨</span> Ver Ofertas en ${data.name}</a>`;
+
+                document.getElementById('content').innerHTML = `
+                    <h2 class="provincia-title">${data.name}</h2>
+
+                    <div class="parks-container">
+                        <span class="parks-title">🏞️ Espacios Naturales Clave:</span>
+                        <div class="info-text">${data.parks}</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-title"><span>🌿</span> Flora</div>
+                        <div class="info-text">${data.flora}</div>
+                    </div>
+                    <div class="section-card">
+                        <div class="section-title"><span>🦅</span> Fauna</div>
+                        <div class="info-text">${data.fauna}</div>
+                    </div>
+
+                    <div class="affiliate-container">
+                        ${affiliateBtn}
+                    </div>
+
+                    <div class="eco-note">
+                        <span>🌿</span> Recuerda hacer un turismo responsable y respetuoso con el medio ambiente.
+                    </div>
+                    
+                    <h3 style="font-family: 'Montserrat'; font-size: 16px; color: #2e7d32; margin-top: 20px; margin-bottom: 10px;">📸 Galería de imágenes</h3>
+                    <div class="gallery">${htmlFotos}</div>
+                `;
+            } else {
+                console.log("Nombre del mapa no encontrado:", mapName);
+                document.getElementById('content').innerHTML = `<h2>${mapName}</h2><p style="color: #888;">Información no disponible.</p>`;
+            }
+        }
+
+        function openLightbox(url, txt) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = url;
+            document.getElementById('caption').innerText = txt;
+            lb.classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+    </script>
+</body>
+</html>

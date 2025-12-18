@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="8GzENS92uGV_b5kpYGNB4ucySApW6RhcP8TXrtIETZU" />
+<meta name="google-adsense-account" content="ca-pub-8448548118682911">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8448548118682911"
+     crossorigin="anonymous"></script>
+    <title>Ofertas de Viaje</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Lato', sans-serif; background-color: #e0f7fa; margin: 0; padding: 0; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        
+        /* CABECERA */
+        .header { 
+            background: linear-gradient(135deg, #2e7d32, #1b5e20); 
+            color: white; 
+            padding: 40px 20px; 
+            text-align: center; 
+            border-radius: 0 0 25px 25px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+        }
+        h1 { font-family: 'Montserrat', sans-serif; margin: 0; font-size: 26px; }
+        p.subtitle { font-size: 16px; margin-top: 10px; opacity: 0.9; }
+
+        /* TARJETAS DE OPCIONES */
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            margin-bottom: 20px; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            text-align: center;
+            transition: transform 0.2s; 
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        
+        .card h3 { margin: 10px 0 5px 0; color: #2e7d32; font-family: 'Montserrat', sans-serif; }
+        .card p { margin: 0 0 15px 0; color: #666; font-size: 14px; }
+        .card-icon { font-size: 40px; }
+        
+        /* BOTONES DE ACCIÓN */
+        .btn-go { 
+            background: linear-gradient(45deg, #ff9800, #f57c00); 
+            color: white; 
+            text-decoration: none; 
+            padding: 12px 30px; 
+            border-radius: 30px; 
+            font-weight: bold; 
+            font-family: 'Montserrat', sans-serif; 
+            width: 100%;
+            max-width: 200px;
+            box-sizing: border-box;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn-go:hover { background: linear-gradient(45deg, #f57c00, #e65100); transform: scale(1.05); }
+
+        .back-link { display: block; text-align: center; margin-top: 30px; margin-bottom: 50px; color: #2e7d32; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1 id="titulo-destino">Buscando destino...</h1>
+        <p class="subtitle">Hemos seleccionado las mejores opciones sostenibles para ti.</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="card">
+            <div class="card-icon">🏨</div>
+            <h3>Alojamientos</h3>
+            <p>Hoteles rurales y apartamentos con cancelación gratuita.</p>
+            <a id="link-booking" href="#" target="_blank" class="btn-go">Ver Precios</a>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🧗</div>
+            <h3>Actividades</h3>
+            <p>Rutas guiadas, 4x4 y entradas a parques naturales.</p>
+            <a id="link-civitatis" href="#" target="_blank" class="btn-go">Ver Actividades</a>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🚗</div>
+            <h3>Coche de Alquiler</h3>
+            <p>La mejor forma de recorrer la provincia a tu aire.</p>
+            <a id="link-rental" href="#" target="_blank" class="btn-go">Buscar Coche</a>
+        </div>
+
+        <a href="index.html" class="back-link">← Volver al Mapa</a>
+    </div>
+
+    <script>
+        // 1. LEER LA URL: ¿De qué provincia vengo?
+        const params = new URLSearchParams(window.location.search);
+        let sitio = params.get('sitio');
+
+        // Si alguien entra directo sin elegir provincia, ponemos "España" por defecto
+        if (!sitio) sitio = "España";
+
+        // 2. ACTUALIZAR TÍTULO
+        document.getElementById('titulo-destino').innerText = `Viaja a ${sitio}`;
+
+        // 3. GENERAR ENLACES AUTOMÁTICOS (AFILIADOS)
+        
+        // --- BOOKING ---
+        // Cambia 'TU_ID_BOOKING' por tu AID real
+        const bookingUrl = `https://www.booking.com/searchresults.es.html?ss=${encodeURIComponent(sitio)}&aid=TU_ID_BOOKING`;
+        document.getElementById('link-booking').href = bookingUrl;
+
+        // --- CIVITATIS ---
+        // Cambia 'TU_ID_CIVITATIS'
+        const civitatisUrl = `https://www.civitatis.com/es/buscar?q=${encodeURIComponent(sitio)}&aid=TU_ID_CIVITATIS`; 
+        document.getElementById('link-civitatis').href = civitatisUrl;
+
+        // --- RENTALCARS ---
+        // Cambia 'TU_ID_RENTAL'
+        // --- RENTALCARS (CORREGIDO) ---
+        // Al no tener fechas, les mandamos a la Home para que ellos elijan.
+        // El parámetro 'preflang=es' pone la web en español.
+        const rentalUrl = `https://www.rentalcars.com/?preflang=es&affiliateCode=TU_ID_RENTAL`;
+        
+        document.getElementById('link-rental').href = rentalUrl;
+
+    </script>
+</body>
+</html>
