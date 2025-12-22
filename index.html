@@ -148,16 +148,6 @@
         <img id="lightbox-img" src="" alt="Imagen ampliada">
         <div id="caption"></div>
     </div>
-<div id="cookie-banner">
-        <div id="cookie-text">
-            Usamos cookies para mejorar tu experiencia y analizar el tráfico. 
-            Puedes leer nuestra <a href="politica.html" target="_blank">Política de Privacidad</a>.
-        </div>
-        <div class="cookie-buttons">
-            <button class="cookie-btn btn-reject" onclick="rejectCookies()">Rechazar</button>
-            <button class="cookie-btn btn-accept" onclick="acceptCookies()">Aceptar</button>
-        </div>
-    </div>
 
     <div id="sidebar">
         <div id="header">
@@ -838,27 +828,7 @@
         function closeLightbox() {
             document.getElementById('lightbox').classList.remove('active');
         }
-// --- LOGICA DEL BANNER DE COOKIES ---
-        function checkCookies() {
-            if (!localStorage.getItem('cookieConsent')) {
-                document.getElementById('cookie-banner').style.display = 'flex';
-            }
-        }
 
-        function acceptCookies() {
-            localStorage.setItem('cookieConsent', 'accepted');
-            document.getElementById('cookie-banner').style.display = 'none';
-        }
-
-        function rejectCookies() {
-            localStorage.setItem('cookieConsent', 'rejected');
-            document.getElementById('cookie-banner').style.display = 'none';
-        }
-
-        // Ejecutar al cargar la web
-        document.addEventListener("DOMContentLoaded", function() {
-            checkCookies();
-        });
     </script>
 <div id="cookie-banner">
     <div id="cookie-text">
