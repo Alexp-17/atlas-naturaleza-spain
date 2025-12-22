@@ -776,23 +776,23 @@
             });
 
             if (data) {
+                // --- NUEVO: ACTUALIZAR LA URL CON # ---
+                if (window.location.hash !== '#' + encodeURIComponent(data.name)) {
+                    window.location.hash = encodeURIComponent(data.name);
+                }
+
                 const htmlFotos = data.images.map(img => 
                     `<img src="${img.url}" class="province-img" onclick="openLightbox('${img.url}', '${img.caption}')">`
                 ).join('');
 
-                // --- CAMBIO PARA PÁGINA PUENTE ---
-        // En lugar de mirar si hay link, mandamos SIEMPRE a la página de ofertas
-        // pasando el nombre de la provincia en la URL (?sitio=Nombre)
-        const affiliateBtn = `<a href="ofertas.html?sitio=${encodeURIComponent(data.name)}" target="_blank" class="btn-affiliate"><span>🏨</span> Ver Ofertas en ${data.name}</a>`;
+                const affiliateBtn = `<a href="ofertas.html?sitio=${encodeURIComponent(data.name)}" target="_blank" class="btn-affiliate"><span>🏨</span> Ver Ofertas en ${data.name}</a>`;
 
                 document.getElementById('content').innerHTML = `
                     <h2 class="provincia-title">${data.name}</h2>
-
                     <div class="parks-container">
                         <span class="parks-title">🏞️ Espacios Naturales Clave:</span>
                         <div class="info-text">${data.parks}</div>
                     </div>
-
                     <div class="section-card">
                         <div class="section-title"><span>🌿</span> Flora</div>
                         <div class="info-text">${data.flora}</div>
@@ -801,24 +801,32 @@
                         <div class="section-title"><span>🦅</span> Fauna</div>
                         <div class="info-text">${data.fauna}</div>
                     </div>
-
-                    <div class="affiliate-container">
-                        ${affiliateBtn}
-                    </div>
-
-                    <div class="eco-note">
-                        <span>🌿</span> Recuerda hacer un turismo responsable y respetuoso con el medio ambiente.
-                    </div>
-                    
-                    <h3 style="font-family: 'Montserrat'; font-size: 16px; color: #2e7d32; margin-top: 20px; margin-bottom: 10px;">📸 Galería de imágenes</h3>
+                    <div class="affiliate-container">${affiliateBtn}</div>
+                    <div class="eco-note"><span>🌿</span> Recuerda hacer un turismo responsable.</div>
+                    <h3 style="font-family: 'Montserrat'; font-size: 16px; color: #2e7d32; margin-top: 20px;">📸 Galería</h3>
                     <div class="gallery">${htmlFotos}</div>
                 `;
             } else {
-                console.log("Nombre del mapa no encontrado:", mapName);
+                // Si no hay datos, limpiamos la URL para no confundir
+                history.pushState("", document.title, window.location.pathname + window.location.search);
                 document.getElementById('content').innerHTML = `<h2>${mapName}</h2><p style="color: #888;">Información no disponible.</p>`;
             }
         }
 
+        // --- NUEVA LÓGICA DE HASHES (DETECTAR # EN LA URL) ---
+        function checkHash() {
+            var hash = window.location.hash.substring(1); // Quita el #
+            if (hash) {
+                var provinceName = decodeURIComponent(hash);
+                showInfo(provinceName);
+            }
+        }
+
+        // Ejecutar al cargar y al cambiar el historial
+        document.addEventListener("DOMContentLoaded", function() {
+            checkHash(); 
+        });
+        window.addEventListener('hashchange', checkHash);
         function openLightbox(url, txt) {
             const lb = document.getElementById('lightbox');
             document.getElementById('lightbox-img').src = url;
