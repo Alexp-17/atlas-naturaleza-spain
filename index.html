@@ -322,23 +322,55 @@
             },
 
             // CANARIAS
-            { name: "Las Palmas", 
-              matchNames: ["Las Palmas"],
+            { 
+              name: "Las Palmas", 
+              matchNames: ["Las Palmas", "Gran Canaria", "Lanzarote", "Fuerteventura"],
               affiliateText: "🐪 Paseo en camello por Timanfaya",
               affiliateLink: "#",
-              flora: "Vegetación xerófila única adaptada a la aridez y vulcanismo: Cardones y Tabaibas. En Gran Canaria destaca el Pino Canario y relictos de Laurisilva. Fuerteventura y Lanzarote presentan flora casi desértica de gran valor.", 
-              fauna: "El Lagarto Gigante de Gran Canaria es el reptil estrella. Fuerteventura es el santuario de la Hubara Canaria y el Guirre (Alimoche Canario). Riqueza extrema de cetáceos en sus aguas.", 
-              parks: "Parque Nacional de Timanfaya (Lanzarote), Dunas de Maspalomas, PN de Jandía.",
-              images: [{url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+4", caption: "Paisaje 4"}]
+              flora: `
+                <h3>Del Desierto Volcánico al Pino Canario</h3>
+                <p>La provincia oriental ofrece un contraste botánico extremo. En <strong>Lanzarote</strong> y <strong>Fuerteventura</strong>, la aridez y el viento han creado una flora heroica. Destacan los endemismos de la península de Jandía, como el <strong>Cardón de Jandía</strong> (*Euphorbia handiensis*), que parece un cactus pero no lo es. En el Parque Nacional de Timanfaya, la vida se abre paso entre la lava reciente con líquenes pioneros y geranios silvestres, mostrando la fuerza de la naturaleza tras el fuego.</p>
+
+                <p><strong>Gran Canaria</strong>, conocida como el "continente en miniatura", cambia las reglas. Aunque su costa sur está dominada por el cardonal-tabaibal (matorral suculento adaptado a la sequía), su cumbre alberga los bosques de <strong>Pino Canario</strong> (*Pinus canariensis*) mejor conservados en Tamadaba e Inagua. Este pino es único en el mundo por ser resistente al fuego (ignífugo), capaz de rebrotar tras un incendio. Además, reductos de laurisilva sobreviven en el norte, como en los Tilos de Moya, recordando el pasado tropical de la isla.</p>
+              `, 
+              fauna: `
+                <h3>El Santuario de la Hubara y el Guirre</h3>
+                <p>Las islas orientales son el último gran refugio de la fauna esteparia en el archipiélago. Las llanuras pedregosas de Fuerteventura y Lanzarote son el hogar de la <strong>Avutarda Hubara</strong> (*Chlamydotis undulata*), una subespecie endémica en peligro de extinción que corre por el desierto majorero. Los cielos son patrullados por el <strong>Guirre</strong> (Alimoche Canario), un buitre blanco y negro que ha sido salvado de la desaparición gracias a programas de conservación intensivos.</p>
+
+                <p>En Gran Canaria, el rey terrestre es el <strong>Lagarto Gigante de Gran Canaria</strong> (*Gallotia stehlini*), el reptil más grande de la provincia, que puede alcanzar los 80 cm y posee una coloración naranja en la garganta. Pero la riqueza biológica explota en el mar: el estrecho de la Bocaina y las aguas de Jandía son uno de los mejores lugares del mundo para ver cetáceos; zifios, cachalotes y calderones residen aquí todo el año gracias a la profundidad y riqueza de estas aguas atlánticas.</p>
+              `, 
+              parks: "PN Timanfaya (Lanzarote), PN Dunas de Maspalomas (Gran Canaria), PN de Jandía (Fuerteventura).",
+              images: [
+                {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+1", caption: "Paisaje 1"}, 
+                {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+2", caption: "Paisaje 2"}, 
+                {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+3", caption: "Paisaje 3"}, 
+                {url: "https://via.placeholder.com/400x250?text=LAS+PALMAS+4", caption: "Paisaje 4"}
+              ]
             },
-            { name: "Santa Cruz de Tenerife", 
-              matchNames: ["Santa Cruz de Tenerife"],
+            { 
+              name: "Santa Cruz de Tenerife", 
+              matchNames: ["Santa Cruz de Tenerife", "Tenerife", "La Palma", "La Gomera", "El Hierro"],
               affiliateText: "🚠 Teleférico del Teide",
               affiliateLink: "#",
-              flora: "Muestra la zonación altitudinal completa: matorral costero, Laurisilva (bosque de niebla) en Garajonay y Anaga, Pinar Canario y vegetación de alta montaña en el Teide (Violeta del Teide, Retama).", 
-              fauna: "Pinzón Azul del Teide (endemismo). Palomas de la laurisilva (Rabiche y Turqué). El Lagarto Gigante de El Hierro, salvado de la extinción. Tortugas marinas residentes.", 
-              parks: "Parque Nacional del Teide, PN de Garajonay (La Gomera), PN Caldera de Taburiente (La Palma).",
-              images: [{url: "https://via.placeholder.com/400x250?text=TENERIFE+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=TENERIFE+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=TENERIFE+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=TENERIFE+4", caption: "Paisaje 4"}]
+              flora: `
+                <h3>La Selva de Niebla y las Flores del Volcán</h3>
+                <p>Esta provincia es el paraíso de la estratificación vegetal. Su mayor tesoro es la <strong>Laurisilva</strong>, un bosque húmedo de la Era Terciaria que sobrevive gracias a los vientos alisios y el "mar de nubes". El <strong>Parque Nacional de Garajonay</strong> (La Gomera) y el Bosque de los Tilos (La Palma) son catedrales vivientes de laureles, brezos gigantes y musgos que gotean agua perpetuamente. En El Hierro, el Árbol Garoé es leyenda viva de esta captación de agua horizontal.</p>
+
+                <p>En <strong>Tenerife</strong>, la corona forestal de pino canario rodea al gigante: el Teide. Por encima de los 2.000 metros, en Las Cañadas, las condiciones extremas han creado una flora exclusiva mundial. Destaca el espectacular <strong>Tajinaste Rojo</strong>, que levanta sus varas florales de tres metros hacia el cielo, y la delicada <strong>Violeta del Teide</strong>, que florece entre la piedra pómez a mayor altitud que ninguna otra planta en España, desafiando el hielo y el sol abrasador.</p>
+              `, 
+              fauna: `
+                <h3>Pinzones Azules y Lagartos Prehistóricos</h3>
+                <p>La fauna de las islas occidentales es un laboratorio de la evolución. En los bosques de laurisilva de La Gomera y Tenerife habitan dos fantasmas alados: las palomas <strong>Rabiche y Turqué</strong>, exclusivas de este ecosistema y claves para dispersar las semillas del bosque. En las alturas del pinar tinerfeño vive el bellísimo <strong>Pinzón Azul del Teide</strong>, un ave endémica cuyo macho luce un plumaje añil intenso inconfundible.</p>
+
+                <p>El Hierro protagoniza una de las historias de recuperación más increíbles: el <strong>Lagarto Gigante de El Hierro</strong> (*Gallotia simonyi*). Considerado extinto, fue redescubierto en los riscos de la Fuga de Gorreta y hoy se cría en cautividad para evitar su desaparición. En el mar, el canal entre Tenerife y La Gomera es el único lugar de la UE con una colonia residente estable de <strong>Calderones Tropicales</strong> (ballenas piloto), que conviven con tortugas bobas y delfines mulares en unas aguas de transparencia cristalina.</p>
+              `, 
+              parks: "PN del Teide (Tenerife), PN de Garajonay (La Gomera), PN Caldera de Taburiente (La Palma), Reserva Marina Mar de las Calmas (El Hierro).",
+              images: [
+                {url: "https://via.placeholder.com/400x250?text=TENERIFE+1", caption: "Paisaje 1"}, 
+                {url: "https://via.placeholder.com/400x250?text=TENERIFE+2", caption: "Paisaje 2"}, 
+                {url: "https://via.placeholder.com/400x250?text=TENERIFE+3", caption: "Paisaje 3"}, 
+                {url: "https://via.placeholder.com/400x250?text=TENERIFE+4", caption: "Paisaje 4"}
+              ]
             },
 
             // CANTABRIA
