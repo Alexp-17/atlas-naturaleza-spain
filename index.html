@@ -181,79 +181,166 @@
         // --- BASE DE DATOS COMPLETA (CON SINÓNIMOS PARA QUE FUNCIONE TODO) ---
         const provinciasData = [
             // ANDALUCÍA
-            { name: "Almería", 
+            { 
+              name: "Almería", 
               matchNames: ["Almería"],
               affiliateText: "🏨 Hoteles en Cabo de Gata",
-              affiliateLink: "https://www.booking.com/searchresults.es.html?city=-370390", 
-              flora: "Única en Europa por su carácter semidesértico. Destacan los artos, el azufaifo y endemismos como el dragoncillo del Cabo de Gata. En las zonas de sierra interior encontramos bosques relictos de encina y pino carrasco.", 
-              fauna: "Aves propias del norte de África como el camachuelo trompetero o típicas de zonas esteparias como las gangas o las cogujadas. Uno de los réptiles más característicos es la tortuga mora. La costa presenta una gran riqueza de vida marina.", 
+              affiliateLink: "https://www.booking.com/searchresults.es.html?city=-370390",
+              flora: `
+                <h3>El Único Desierto de Europa y la Sierra Verde</h3>
+                <p>La flora almeriense es una rareza geobotánica continental. La aridez extrema del sureste ha creado ecosistemas únicos, como los artales de <strong>azufaifo</strong> (*Ziziphus lotus*) en el Cabo de Gata, matorrales espinosos que protegen el suelo y son hábitat prioritario. Aquí sobreviven endemismos exclusivos como el <strong>dragoncillo del Cabo de Gata</strong> y el cornical, plantas que parecen más propias de África que de Europa. En el Desierto de Tabernas, la vegetación se refugia en las ramblas, luchando contra la erosión en un paisaje lunar fascinante.</p>
+
+                <p>Sin embargo, Almería tiene un "techo verde". En las cumbres de <strong>Sierra María-Los Vélez</strong> y Sierra Nevada (vertiente almeriense), la aridez desaparece para dar paso a bosques relictos de pino carrasco y laricio, junto a encinares que sobreviven gracias a la altitud. Además, bajo el mar, las praderas de <strong>Posidonia Oceánica</strong> son las mejor conservadas del Mediterráneo, actuando como un bosque sumergido vital.</p>
+              `, 
+              fauna: `
+                <h3>Aves del Desierto y la Tortuga Mora</h3>
+                <p>La fauna de Almería es el puente entre dos continentes. Es el mejor lugar de Europa para observar aves esteparias y norteafricanas. El <strong>Camachuelo Trompetero</strong>, con su pico rojo, es el símbolo de esta conexión africana, compartiendo hábitat con las esquivas Gangas Ortega y las Cogujadas en los llanos semidesérticos. En las zonas de matorral bajo, reina la <strong>Tortuga Mora</strong> (*Testudo graeca*), un reptil terrestre protegido que tiene aquí sus poblaciones silvestres más importantes.</p>
+
+                <p>En las salinas del Cabo de Gata, la vida explota con miles de Flamencos Rosados, Avocetas y Cigüeñuelas que utilizan estos humedales costeros como descanso migratorio. Las sierras del interior son territorio de grandes rapaces: el Águila Perdicera y el Búho Real anidan en los tajos rocosos, controlando las poblaciones de conejo y liebre. El mar de Alborán, frente a sus costas, es un corredor vital para delfines y calderones.</p>
+              `, 
               parks: "PN Cabo de Gata-Níjar, Paraje Natural Desierto de Tabernas, PN Sierra María-Los Vélez.",
               images: [{url: "https://www.spain.info/export/sites/segtur/.content/imagenes/cabeceras-grandes/andalucia/parque_natural_cabo_gata_nijar_s_547778563.jpg", caption: "Parque Natural Cabo de Gata-Níjar"}, {url: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Amanecer_en_el_desierto.jpg", caption: "Desierto de Tabernas"}, {url: "https://queverenalmeria.es/wp-content/uploads/2021/10/castillo-velez-blanco-muela.jpg", caption: "Sierra María-Los Vélez"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Roselin_githagine_Bouhedma.jpg/640px-Roselin_githagine_Bouhedma.jpg", caption: "Camachuelo Trompetero"}] 
             },
-            { name: "Cádiz", 
+            { 
+              name: "Cádiz", 
               matchNames: ["Cádiz"],
               affiliateText: "🏨 Alojamientos en Grazalema",
               affiliateLink: "#",
-              flora: "El pinsapo (abeto endémico) en Grazalema. Alcornocales inmensos y vegetación dunar.", 
-              fauna: "Paso migratorio clave (Estrecho). Un ave a destacar es el ibis eremita, extinto en el resto de Europa, el Proyecto Eremita ha dado pie a parejas reproductoras en la provincia. Reptiles como el camaleón común y una abundante vida marina, que incluye cetáceos.", 
+              flora: `
+                <h3>La Selva de Niebla y el Abeto de la Era Glacial</h3>
+                <p>Cádiz rompe todos los esquemas climáticos: la Sierra de Grazalema es el punto más lluvioso de España. Esta abundancia de agua permite la existencia del <strong>Pinsapo</strong> (*Abies pinsapo*), un abeto prehistórico único en el mundo que formó bosques cerrados en la Era Glacial y hoy sobrevive en las caras norte de estas montañas. Es una reliquia botánica de valor incalculable.</p>
+
+                <p>Hacia el sur, entramos en "la última selva mediterránea": el <strong>Parque Natural de Los Alcornocales</strong>. Gracias a los vientos húmedos del Estrecho ("barbas del levante"), se forman los "canutos" (valles fluviales) donde crece una vegetación subtropical de helechos gigantes, rododendros y laureles bajo la sombra de millones de alcornoques. En la costa, los sistemas dunares y los pinares de pino piñonero (La Breña) luchan contra el viento y la salinidad, fijando el terreno.</p>
+              `, 
+              fauna: `
+                <h3>Migración Global y el Regreso del Ibis</h3>
+                <p>El Estrecho de Gibraltar convierte a Cádiz en el embudo migratorio más importante de Europa occidental. Millones de aves planeadoras (cigüeñas, milanos, abejeros) cruzan aquí cada año hacia África, ofreciendo un espectáculo aéreo mundial. Pero la provincia tiene su propio milagro: el <strong>Ibis Eremita</strong>. Extinto en Europa durante siglos, ha sido reintroducido con éxito en La Janda y Barbate, y hoy es posible ver a estas aves de pico curvo y cresta punk volando libres de nuevo.</p>
+
+                <p>La vida marina es igual de impresionante. Las aguas del Estrecho son el hogar de familias residentes de <strong>Orcas</strong>, que han aprendido a interactuar con los pescadores de atún rojo. Además, Rorcuales y Cachalotes son visitantes frecuentes. En tierra, el Camaleón Común tiene en los pinares costeros gaditanos sus mejores poblaciones de la península, camuflándose entre las retamas.</p>
+              `, 
               parks: "Estrecho de Gibraltar, PN Sierra de Grazalema, PN Los Alcornocales.",
               images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Parque_natural_de_Los_Alcornocales_%28C%C3%A1diz%2C_Espa%C3%B1a%29_06.jpg/640px-Parque_natural_de_Los_Alcornocales_%28C%C3%A1diz%2C_Espa%C3%B1a%29_06.jpg", caption: "Parque Natural Los Alcornocales: Foto de Tanja Freibott"}, {url: "https://images.pexels.com/photos/8508595/pexels-photo-8508595.jpeg?_gl=1*140vqsw*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjU5OTg5NjUkbzEkZzEkdDE3NjU5OTkyMDAkajMxJGwwJGgw", caption: "Zahara de la Sierra, Sierra de Grazalema: Foto de Agustín Piñero"}, {url: "https://images.pexels.com/photos/31833424/pexels-photo-31833424.jpeg?_gl=1*1y7kul7*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjU5OTg5NjUkbzEkZzEkdDE3NjU5OTkzNzckajUzJGwwJGgw", caption: "Estrecho de Gibraltar: Foto de Tom Lorber"}, {url: "https://images.pexels.com/photos/26619527/pexels-photo-26619527.jpeg?_gl=1*1qtb4le*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjU5OTg5NjUkbzEkZzEkdDE3NjU5OTk1NDckajEwJGwwJGgw", caption: "Ibis Eremita: Foto de Chris F"}] 
             },
-            { name: "Córdoba", 
+            { 
+              name: "Córdoba", 
               matchNames: ["Córdoba"],
               affiliateText: "🏨 Dormir en Sierra Morena",
               affiliateLink: "#",
-              flora: "Dominio absoluto del bosque mediterráneo y la dehesa en Sierra Morena, con encinas, alcornoques y quejigos centenarios. Las Sierras Subbéticas presentan vegetación rupícola sobre roca caliza.", 
-              fauna: "Territorio clave para la recuperación del Lince Ibérico, especialmente en las sierras de Cardeña y Montoro. Gran abundancia de ciervos y jabalíes. Zona de nidificación del Águila Imperial Ibérica y el Buitre Negro.", 
+              flora: `
+                <h3>La Reina de la Dehesa y la Roca Caliza</h3>
+                <p>Córdoba es la guardiana del ecosistema más sostenible del Mediterráneo: la dehesa. En el norte (Los Pedroches y Sierra Morena), se extienden infinitos bosques adehesados de <strong>encinas y alcornoques</strong> centenarios. Estos árboles no solo producen bellotas, sino que crean un suelo fértil y retienen la humedad. En las zonas más húmedas y fluviales, como en Cardeña y Montoro, aparecen robles melojos y bosques de ribera con alisos y fresnos que forman túneles verdes.</p>
+
+                <p>Al sur, el paisaje cambia radicalmente en las <strong>Sierras Subbéticas</strong>. Es un terreno de roca caliza abrupta y vertical. Aquí, la flora se ha especializado para vivir en las grietas (flora rupícola), destacando una inmensa variedad de orquídeas silvestres y el arce de Granada. El paisaje es un mosaico de olivar de montaña entremezclado con manchas de bosque mediterráneo original que ha resistido la expansión agrícola.</p>
+              `, 
+              fauna: `
+                <h3>El Feudo del Lince y las Grandes Rapaces</h3>
+                <p>Las sierras de Córdoba, especialmente Cardeña y Montoro, son históricamente vitales para la supervivencia del <strong>Lince Ibérico</strong>. Junto con la vecina Andújar, formaron el núcleo de resistencia cuando la especie casi desaparece. Hoy, la población crece gracias a la abundancia de conejo. La densidad de ungulados es asombrosa: grandes manadas de Ciervo Ibérico y Jabalí pueblan estas sierras, siendo la base alimenticia de grandes carnívoros y carroñeros.</p>
+
+                <p>El cielo cordobés es patrullado por la nobleza alada. El <strong>Águila Imperial Ibérica</strong>, endémica y amenazada, tiene aquí uno de sus bastiones reproductores más importantes. Comparte las corrientes térmicas con el inmenso Buitre Negro, que anida en las copas de los grandes alcornoques y encinas, y con el Águila Real. En las lagunas del sur (Zóñar), destaca la presencia de la Malvasía Cabeciblanca, un pato buceador de pico azul muy raro.</p>
+              `, 
               parks: "PN Sierras Subbéticas, PN Sierra de Cardeña y Montoro, PN Sierra de Hornachuelos.",
-              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Parque_natural_Sierras_Subb%C3%A9ticas_01.JPG/640px-Parque_natural_Sierras_Subb%C3%A9ticas_01.JPG", caption: "Parque Natural Sierras Subbéticas: Foto de Veinticuatro de Jahén"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Sierra_Morena_%28Obejo%29.jpg/640px-Sierra_Morena_%28Obejo%29.jpg", caption: "Sierra Morena desde el cerro de Obejo: Foto de Antonio Montilla Lucena"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Pantano_del_Yeguas._Parque_Natural_Sierra_de_Carde%C3%B1a_y_Montoro.JPG/640px-Pantano_del_Yeguas._Parque_Natural_Sierra_de_Carde%C3%B1a_y_Montoro.JPG", caption: "Pantano del Yeguas, Sierra de Cardeña y Montoro: Foto de Anajg2 "}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Sendero_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles%2C_Parque_natural_Sierra_de_Hornachuelos.jpg/640px-Sendero_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles%2C_Parque_natural_Sierra_de_Hornachuelos.jpg", caption: "Sendero de los Ángeles, Sierra de Hornachuelos: Foto de F.J. Fotografía"}]
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Parque_natural_Sierras_Subb%C3%A9ticas_01.JPG/640px-Parque_natural_Sierras_Subb%C3%A9ticas_01.JPG", caption: "Parque Natural Sierras Subbéticas: Foto de Veinticuatro de Jahén"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Sierra_Morena_%28Obejo%29.jpg/640px-Sierra_Morena_%28Obejo%29.jpg", caption: "Sierra Morena desde el cerro de Obejo: Foto de Antonio Montilla Lucena"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Pantano_del_Yeguas._Parque_Natural_Sierra_de_Carde%C3%B1a_y_Montoro.JPG/640px-Pantano_del_Yeguas._Parque_Natural_Sierra_de_Carde%C3%B1a_y_Montoro.JPG", caption: "Pantano del Yeguas, Sierra de Cardeña y Montoro: Foto de Anajg2 "}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Sendero_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles%2C_Parque_natural_Sierra_de_Hornachuelos.jpg/640px-Sendero_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles%2C_Parque_natural_Sierra_de_Hornachuelos.jpg", caption: "Sendero de los Ángeles, Sierra de Hornachuelos: Foto de F.J. Fotografía"}] 
             },
-            { name: "Granada", 
+            { 
+              name: "Granada", 
               matchNames: ["Granada"],
               affiliateText: "🌲 Excursiones en Sierra Nevada",
               affiliateLink: "#",
-              flora: "Sierra Nevada constituye el mayor reservorio de biodiversidad vegetal de Europa, con más de 60 endemismos exclusivos adaptados a la alta montaña, como la Manzanilla Real y la Estrella de las Nieves. En cotas bajas encontramos encinares, robledales y vegetación tropical en la costa.", 
-              fauna: "La Cabra Montés es el emblema de las cumbres granadinas, presentando aquí sus poblaciones más numerosas. Es hábitat de especies alpinas como el Acentor Alpino y de una inmensa variedad de insectos endémicos, incluyendo mariposas únicas en el mundo.", 
+              flora: `
+                <h3>El Arca de Noé de la Flora Europea</h3>
+                <p><strong>Sierra Nevada</strong> no es solo una montaña, es el mayor reservorio de biodiversidad vegetal de toda Europa. Su aislamiento y altitud han creado un laboratorio evolutivo con más de <strong>60 endemismos exclusivos</strong> que no existen en ningún otro lugar del planeta. En las cumbres, entre cascajales y nieves, crecen joyas botánicas como la "Estrella de las Nieves" (*Plantago nivalis*) y la "Manzanilla Real", adaptadas a la radiación solar extrema y el frío polar.</p>
+
+                <p>Al descender de las cumbres del Mulhacén y el Veleta, encontramos robledales de roble melojo, castaños y pinares de pino silvestre nevadensis. Pero Granada es contraste: en su costa tropical, el microclima permite cultivos de aguacate y chirimoya, mientras que en las zonas semiáridas de la Hoya de Baza, la vegetación esteparia recuerda a los desiertos asiáticos. Es una provincia donde puedes pasar de la tundra ártica al trópico en 50 kilómetros.</p>
+              `, 
+              fauna: `
+                <h3>La Cabra Montés y las Mariposas Únicas</h3>
+                <p>El símbolo viviente de Granada es la <strong>Cabra Montés</strong> (*Capra pyrenaica*). Sierra Nevada alberga la población más numerosa y saludable del mundo de este ungulado, cuyos machos lucen cuernos espectaculares. Son fáciles de ver desafiando la gravedad en los tajos. Junto a ellas, en las praderas alpinas, vive una comunidad de insectos única: la mariposa <strong>Apolo de Sierra Nevada</strong> es un endemismo que vuela sobre los 2.000 metros.</p>
+
+                <p>La avifauna de alta montaña incluye especialistas como el Acentor Alpino, el Gorrión Alpino y la Chova Piquirroja. Además, se está trabajando intensamente en la reintroducción del <strong>Quebrantahuesos</strong> en las sierras del norte (Castril y La Sagra), esperando que vuelva a criar en estas cumbres históricas. En los ríos de montaña, la Trucha Común autóctona mantiene poblaciones genéticamente puras de gran valor.</p>
+              `, 
               parks: "Parque Nacional de Sierra Nevada, PN Sierra de Baza, PN Sierra de Huétor.",
-              images: [{url: "https://images.unsplash.com/photo-1528048228650-0d2f4deedc67?q=80&w=940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", caption: "Estación de esquí de Sierra Nevada: Foto de Yeray Sánchez"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Arboretum_de_la_Alfaguara_%28Sierra_de_Hu%C3%A9tor%2C_Granada%29.jpg/640px-Arboretum_de_la_Alfaguara_%28Sierra_de_Hu%C3%A9tor%2C_Granada%29.jpg", caption: "Parque Natural Sierra de Huétor: Foto de José Antonio Huertas"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/SierraBaza2.JPG/640px-SierraBaza2.JPG", caption: "Parque Natural Sierra de Baza: Foto de Rimantas Lazdynas"}, {url: "https://images.pexels.com/photos/35251986/pexels-photo-35251986.jpeg?_gl=1*15h7x32*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjYwMDI4NDAkbzIkZzEkdDE3NjYwMDQ4NzkkajYwJGwwJGgw", caption: "Ejemplares de Cabra Montés: Foto de Leonardo Prascina, "}]
+              images: [{url: "https://images.unsplash.com/photo-1528048228650-0d2f4deedc67?q=80&w=940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", caption: "Estación de esquí de Sierra Nevada: Foto de Yeray Sánchez"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Arboretum_de_la_Alfaguara_%28Sierra_de_Hu%C3%A9tor%2C_Granada%29.jpg/640px-Arboretum_de_la_Alfaguara_%28Sierra_de_Hu%C3%A9tor%2C_Granada%29.jpg", caption: "Parque Natural Sierra de Huétor: Foto de José Antonio Huertas"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/SierraBaza2.JPG/640px-SierraBaza2.JPG", caption: "Parque Natural Sierra de Baza: Foto de Rimantas Lazdynas"}, {url: "https://images.pexels.com/photos/35251986/pexels-photo-35251986.jpeg?_gl=1*15h7x32*_ga*Mzc4ODc3NjcwLjE3NjU5OTg5NjU.*_ga_8JE65Q40S6*czE3NjYwMDI4NDAkbzIkZzEkdDE3NjYwMDQ4NzkkajYwJGwwJGgw", caption: "Ejemplares de Cabra Montés: Foto de Leonardo Prascina, "}] 
             },
-            { name: "Huelva", 
+            { 
+              name: "Huelva", 
               matchNames: ["Huelva"],
               affiliateText: "🏨 Alojamientos Cerca de Doñana",
               affiliateLink: "#",
-              flora: "Gran contraste entre los extensos pinares de pino piñonero y matorral noble en la costa (Doñana) y las frondosas dehesas de encina y castaños en la Sierra de Aracena. Las marismas albergan vegetación halófila.", 
-              fauna: "Santuario histórico y principal núcleo reproductor del Lince Ibérico. Doñana es el humedal más importante de Europa, acogiendo millones de aves acuáticas (flamencos, espátulas, ánsares) durante la invernada y migración. Presencia destacada del Águila Imperial.", 
+              flora: `
+                <h3>De las Dunas Móviles al Castañar Serrano</h3>
+                <p>Huelva es biodiversidad en estado puro. Su joya es <strong>Doñana</strong>, un mosaico de ecosistemas donde destacan las dunas móviles y los "corrales" de pino piñonero y sabina que fijan la arena. En el borde de la marisma, la "vera" es una franja de alcornoques centenarios ("Las Pajareras") vital para la cría de aves. La vegetación de marisma, con almajos y castañuela, cambia de color con las estaciones y el nivel del agua.</p>
+
+                <p>Pero al norte, la provincia se transforma. En la <strong>Sierra de Aracena y Picos de Aroche</strong>, la influencia de los vientos atlánticos crea un clima húmedo que permite bosques frondosos inesperados en el sur: inmensos castañares que producen setas de calidad mundial, robledales de melojo y dehesas de alcornoque y encina que se pierden en el horizonte. En los barrancos húmedos, sobreviven helechos reales y galerías de chopos y alisos.</p>
+              `, 
+              fauna: `
+                <h3>El Reino del Lince y el Humedal de Europa</h3>
+                <p>Doñana es, sin discusión, el humedal más importante de Europa. Millones de aves dependen de estas marismas para migrar o invernar. Bandadas inmensas de <strong>Flamencos</strong>, Ánsares Comunes y la elegante Espátula llenan el cielo. Pero el rey oculto del matorral es el <strong>Lince Ibérico</strong>. Huelva fue su último bastión cuando estaba al borde de la extinción y sigue siendo su hogar espiritual, cazando conejos entre lentiscos y jaras.</p>
+
+                <p>El cielo onubense es territorio del <strong>Águila Imperial Ibérica</strong>, que anida en los árboles más altos de la reserva. En las Marismas del Odiel, la concentración de espátulas y águilas pescadoras es espectacular. En la sierra norte, la fauna cambia: Ciervos, Jabalíes y la esquiva Cigüeña Negra habitan las dehesas, compartiendo espacio con el cerdo ibérico, que aunque doméstico, es pieza clave del ecosistema.</p>
+              `, 
               parks: "Parque Nacional de Doñana, PN Sierra de Aracena y Picos de Aroche, Paraje Natural Marismas del Odiel.",
-              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Do%C3%B1ana_1986_14.jpg/640px-Do%C3%B1ana_1986_14.jpg", caption: "Paruqe Nacional de Doñana: Foto de LBM1948"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Marismas_del_Odiel_%28Huelva%29_-_14855763889.jpg/640px-Marismas_del_Odiel_%28Huelva%29_-_14855763889.jpg", caption: "Marismas del Odiel: Foto de Jose A."}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sierra_de_Aracena_1986_02.jpg/640px-Sierra_de_Aracena_1986_02.jpg", caption: "Sierra de Aracena: Foto de LBM1948"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Lince_iberico_2.jpg/640px-Lince_iberico_2.jpg", caption: "Lince ibérico en Doñana: Foto de Fernando Diz"}]
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Do%C3%B1ana_1986_14.jpg/640px-Do%C3%B1ana_1986_14.jpg", caption: "Paruqe Nacional de Doñana: Foto de LBM1948"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Marismas_del_Odiel_%28Huelva%29_-_14855763889.jpg/640px-Marismas_del_Odiel_%28Huelva%29_-_14855763889.jpg", caption: "Marismas del Odiel: Foto de Jose A."}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sierra_de_Aracena_1986_02.jpg/640px-Sierra_de_Aracena_1986_02.jpg", caption: "Sierra de Aracena: Foto de LBM1948"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Lince_iberico_2.jpg/640px-Lince_iberico_2.jpg", caption: "Lince ibérico en Doñana: Foto de Fernando Diz"}] 
             },
-            { name: "Jaén", 
+            { 
+              name: "Jaén", 
               matchNames: ["Jaén"],
               affiliateText: "🌲 Turismo Rural en Cazorla",
               affiliateLink: "#",
-              flora: "Posee la superficie boscosa continua más grande de la Península (Sierras de Cazorla, Segura y Las Villas). Predominan los bosques de pino salgareño (laricio), encinares y robledales melojos. Cuenta con endemismos botánicos como la Violeta de Cazorla.", 
-              fauna: "Escenario de éxito en la reintroducción del Quebrantahuesos. Alberga grandes poblaciones de ungulados: cabra montés, ciervo, gamo y muflón. Es hogar de la Lagartija de Valverde, especie endémica de estas sierras.", 
+              flora: `
+                <h3>El Gran Pulmón Verde de la Península</h3>
+                <p>Jaén sorprende al mundo con la mayor superficie boscosa continua de España: las Sierras de Cazorla, Segura y Las Villas. Aquí, el rey es el <strong>Pino Salgareño</strong> (o Laricio), cuyos troncos rectos y altísimos han servido históricamente para mástiles de barcos. Estos pinares se mezclan con encinares, robles melojos y zonas de arce granadino, creando un océano verde infinito.</p>
+
+                <p>La riqueza botánica es tal que alberga endemismos únicos en el planeta, como la <strong>Violeta de Cazorla</strong> (*Viola cazorlensis*), una flor rosa delicada que solo crece en las grietas de la roca caliza de estas sierras, o el Narciso de Cazorla. En Sierra Mágina, aislada como una isla ecológica, se encuentran tejos milenarios y sabinas rastreras en las cumbres, testigos de tiempos más fríos.</p>
+              `, 
+              fauna: `
+                <h3>El Regreso del Quebrantahuesos y la Caza Mayor</h3>
+                <p>Jaén es el escenario de un éxito mundial de conservación: la reintroducción del <strong>Quebrantahuesos</strong>. Esta enorme ave carroñera vuelve a surcar los cielos de Cazorla y Segura, rompiendo huesos desde el aire. Comparte las térmicas con una densidad altísima de Buitre Leonado y Águila Real. Pero lo que más llama la atención al visitante es la abundancia de ungulados: es muy fácil ver Ciervos, Gamos, Muflones y Cabra Montés en libertad, a menudo al borde de las carreteras.</p>
+
+                <p>Entre los reptiles, destaca un endemismo exclusivo: la <strong>Lagartija de Valverde</strong>, descubierta en estas sierras. Y no podemos olvidar al Lince Ibérico, cuya población en el Parque Natural de Sierra de Andújar es la más densa y estable del mundo, siendo el mejor lugar del planeta para intentar avistar a este felino fantasma en libertad.</p>
+              `, 
               parks: "PN Sierras de Cazorla, Segura y Las Villas, PN Sierra Mágina, PN Despeñaperros, PN Sierra de Ándujar.",
-              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/R45.jpg/1200px-R45.jpg?20150301124519", caption: "PN Sierras de Cazorla, Segura y las Villas: Foto de Félix Rodríguez de la Fuente"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Parque_natural_Sierra_de_And%C3%BAjar_24J_01.jpg/640px-Parque_natural_Sierra_de_And%C3%BAjar_24J_01.jpg", caption: "Parque Natural Sierra de Ándujar: Foto de Veinticuatro de Jahén"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Parque_Despe%C3%B1aperros1.JPG/640px-Parque_Despe%C3%B1aperros1.JPG", caption: "Parque Natural Despeñaperros: Foto de Veinticuatro de Jahén"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Bartgeier_Gypaetus_barbatus_front_Richard_Bartz.jpg/640px-Bartgeier_Gypaetus_barbatus_front_Richard_Bartz.jpg", caption: "Quebrantahuesos, recuperada en Cazorla"}]
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/R45.jpg/1200px-R45.jpg?20150301124519", caption: "PN Sierras de Cazorla, Segura y las Villas: Foto de Félix Rodríguez de la Fuente"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Parque_natural_Sierra_de_And%C3%BAjar_24J_01.jpg/640px-Parque_natural_Sierra_de_And%C3%BAjar_24J_01.jpg", caption: "Parque Natural Sierra de Ándujar: Foto de Veinticuatro de Jahén"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Parque_Despe%C3%B1aperros1.JPG/640px-Parque_Despe%C3%B1aperros1.JPG", caption: "Parque Natural Despeñaperros: Foto de Veinticuatro de Jahén"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Bartgeier_Gypaetus_barbatus_front_Richard_Bartz.jpg/640px-Bartgeier_Gypaetus_barbatus_front_Richard_Bartz.jpg", caption: "Quebrantahuesos, recuperada en Cazorla"}] 
             },
-            { name: "Málaga", 
+            { 
+              name: "Málaga", 
               matchNames: ["Málaga"],
               affiliateText: "🎟️ Entradas Caminito del Rey",
               affiliateLink: "#",
-              flora: "Destaca por los bosques de Pinsapo en la Sierra de las Nieves y Ronda, reliquias de climas pasados. Gran diversidad de orquídeas silvestres y vegetación termófila en la costa (palmitos, algarrobos).", 
-              fauna: "La Laguna de Fuente de Piedra acoge la mayor colonia de cría de flamencos de la península. En las zonas montañosas como El Torcal abunda la cabra montés, y en los ríos se conserva una buena población de nutrias.", 
+              flora: `
+                <h3>El Abeto Andaluz y las Orquídeas</h3>
+                <p>Málaga custodia una joya botánica: el recién declarado <strong>Parque Nacional Sierra de las Nieves</strong>. Su protagonista absoluto es el <strong>Pinsapo</strong> (*Abies pinsapo*), un abeto de la era glacial con hojas rígidas dispuestas en espiral que forma bosques oscuros y misteriosos, únicos en el sur de Europa. Es un fósil viviente que comparte hábitat con quejigos de montaña y encinas centenarias.</p>
+
+                <p>La diversidad malagueña es brutal. En el Paraje Natural de El Torcal de Antequera, la flora rupícola (amante de la roca) coloniza un paisaje kárstico de ciencia ficción, con hiedras y ombligos de venus en las grietas. Málaga es además la provincia andaluza con mayor variedad de <strong>orquídeas silvestres</strong>. En la costa, a pesar de la presión urbanística, sobreviven acantilados (Maro-Cerro Gordo) con endemismos como el limonio malacitano y poblaciones de palmito y algarrobo adaptadas al calor.</p>
+              `, 
+              fauna: `
+                <h3>Flamencos Rosados y Cabras del Torcal</h3>
+                <p>La Laguna de Fuente de Piedra es un hito ornitológico: alberga la mayor colonia de cría de <strong>Flamencos</strong> de toda la Península Ibérica (y segunda de Europa). Ver a miles de estas aves rosadas alimentándose en la laguna salada es un espectáculo inolvidable. En las montañas de roca caliza, como El Torcal y la Sierra de las Nieves, la <strong>Cabra Montés</strong> es omnipresente, saltando con agilidad por el karst laberíntico.</p>
+
+                <p>Los ríos malagueños, cortos pero de aguas limpias en sus cabeceras (como el río Verde o Genal), mantienen poblaciones sanas de <strong>Nutria</strong> y Cangrejo de río autóctono. En los Montes de Málaga, el Camaleón Común encuentra refugio, y las grandes rapaces como el Águila Perdicera y el Búho Real utilizan los tajos del Desfiladero de los Gaitanes (Caminito del Rey) para nidificar.</p>
+              `, 
               parks: "Parque Nacional Sierra de las Nieves, PN Montes de Málaga, Torcal de Antequera, Laguna de Fuente de Piedra.",
-              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sierra_de_las_Nieves_1975_02.jpg/640px-Sierra_de_las_Nieves_1975_02.jpg", caption: "Parque Nacional Sierra de las Nieves: Foto de LBM1948"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Montes_de_M%C3%A1laga_%286864515659%29.jpg/640px-Montes_de_M%C3%A1laga_%286864515659%29.jpg", caption: "Parque Natural Montes de Málaga: Foto de Juan Pablo Olmo"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/El_Torcal_de_Antequera_karst_Andalusia_Spain.jpg/640px-El_Torcal_de_Antequera_karst_Andalusia_Spain.jpg", caption: "Torcal de Antequero: Foto de Jebulon"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Caminito_del_Rey_%2833354004222%29.jpg/640px-Caminito_del_Rey_%2833354004222%29.jpg", caption: "Caminito del Rey: Foto de Frayle"}]
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sierra_de_las_Nieves_1975_02.jpg/640px-Sierra_de_las_Nieves_1975_02.jpg", caption: "Parque Nacional Sierra de las Nieves: Foto de LBM1948"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Montes_de_M%C3%A1laga_%286864515659%29.jpg/640px-Montes_de_M%C3%A1laga_%286864515659%29.jpg", caption: "Parque Natural Montes de Málaga: Foto de Juan Pablo Olmo"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/El_Torcal_de_Antequera_karst_Andalusia_Spain.jpg/640px-El_Torcal_de_Antequera_karst_Andalusia_Spain.jpg", caption: "Torcal de Antequero: Foto de Jebulon"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Caminito_del_Rey_%2833354004222%29.jpg/640px-Caminito_del_Rey_%2833354004222%29.jpg", caption: "Caminito del Rey: Foto de Frayle"}] 
             },
-            { name: "Sevilla", 
+            { 
+              name: "Sevilla", 
               matchNames: ["Sevilla"],
               affiliateText: "🏨 Hoteles en Sierra Norte",
               affiliateLink: "#",
-              flora: "Paisaje dual: al sur, vegetación de marisma y cultivos de arrozal; al norte, magníficas dehesas de encina y alcornoque, con bosques de ribera muy bien conservados en cursos fluviales como el Huéznar.", 
-              fauna: "La avifauna acuática es espectacular en la zona de Doñana-Sevilla (morito, garza real, calamón). En la Sierra Norte se encuentran especies amenazadas como la Cigüeña Negra, el Águila Imperial y el Lince Ibérico.", 
-              parks: "PN Doñana (sector norte), PN Sierra Norte de Sevilla, Reserva Natural Complejo Endorreico de Lebrija.",
-              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Parque_nacional_de_Do%C3%B1ana_18.jpg/640px-Parque_nacional_de_Do%C3%B1ana_18.jpg", caption: "Parque Nacional de Doñana: Foto de FrDr"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Sierra_norte_de_sevilla-16_%2814345603718%29.jpg/640px-Sierra_norte_de_sevilla-16_%2814345603718%29.jpg", caption: "Parque Natural Sierra Norte de Sevilla: Foto de Leopoldo de Castro"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Laguna_del_Pil%C3%B3n.jpg/640px-Laguna_del_Pil%C3%B3n.jpg", caption: "Laguna del Pilón, Lebrija: Foto de Antonio Casado Puerto"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Aguila_Imperial_Joven_%28125891765%29.jpeg/640px-Aguila_Imperial_Joven_%28125891765%29.jpeg", caption: "Águila Imperial Joven: Foto de José Antonio Lagier Martin"}]
-            },
+              flora: `
+                <h3>De la Marisma Arrocera a la Dehesa Serrana</h3>
+                <p>Sevilla presenta una dualidad ecológica fascinante. Al sur, el entorno de <strong>Doñana</strong> está dominado por la llanura de la marisma y el cultivo del arroz. Es un paisaje horizontal de canales, carrizales y espadañas que cambia drásticamente según el ciclo del agua. Aquí, la vegetación natural lucha por sobrevivir en los "brazos" del río Guadalquivir, formando bosques de ribera muy valiosos.</p>
 
+                <p>Al norte, la provincia se eleva en la <strong>Sierra Norte de Sevilla</strong> (parte de Sierra Morena y Geoparque Mundial). Aquí reina la dehesa de encina y alcornoque, un bosque abierto y luminoso mantenido por el ganado. Pero la joya escondida son los bosques de galería del río Huéznar y el Viar: túneles de alisos, fresnos, sauces y olmos que crean un microclima fresco y húmedo, con cascadas travertínicas únicas, contrastando con el calor de la campiña sevillana.</p>
+              `, 
+              fauna: `
+                <h3>Aves de Arrozal y Águilas Imperiales</h3>
+                <p>El sur de Sevilla es un paraíso para las aves acuáticas. Los arrozales actúan como una despensa gigante para especies espectaculares como el <strong>Morito Común</strong> (un ibis oscuro), la Garza Real, el Calamón y miles de cigüeñas. Es fácil ver al Milano Negro patrullando sobre los cultivos en busca de presas. La conexión con Doñana es vital para la dispersión de estas especies.</p>
+
+                <p>En la Sierra Norte, la fauna es forestal y noble. Es territorio de grandes rapaces: la amenazada <strong>Cigüeña Negra</strong> anida en los lugares más tranquilos, compartiendo hábitat con el Águila Imperial Ibérica y el Buitre Negro. El Lince Ibérico está recolonizando estas sierras desde el norte, y la abundancia de Ciervo y Jabalí asegura la cadena trófica. En los ríos serranos, la trucha común y la nutria son indicadores de la buena salud de las aguas.</p>
+              `, 
+              parks: "PN Doñana (sector norte), PN Sierra Norte de Sevilla, Reserva Natural Complejo Endorreico de Lebrija.",
+              images: [{url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Parque_nacional_de_Do%C3%B1ana_18.jpg/640px-Parque_nacional_de_Do%C3%B1ana_18.jpg", caption: "Parque Nacional de Doñana: Foto de FrDr"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Sierra_norte_de_sevilla-16_%2814345603718%29.jpg/640px-Sierra_norte_de_sevilla-16_%2814345603718%29.jpg", caption: "Parque Natural Sierra Norte de Sevilla: Foto de Leopoldo de Castro"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Laguna_del_Pil%C3%B3n.jpg/640px-Laguna_del_Pil%C3%B3n.jpg", caption: "Laguna del Pilón, Lebrija: Foto de Antonio Casado Puerto"}, {url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Aguila_Imperial_Joven_%28125891765%29.jpeg/640px-Aguila_Imperial_Joven_%28125891765%29.jpeg", caption: "Águila Imperial Joven: Foto de José Antonio Lagier Martin"}] 
+            },
             // ARAGÓN
             { name: "Huesca", 
               matchNames: ["Huesca"],
@@ -311,14 +398,30 @@
             },
 
             // BALEARES
-            { name: "Illes Balears", 
-              matchNames: ["Islas Baleares", "Illes Balears", "Baleares"],
+            { 
+              name: "Illes Balears", 
+              matchNames: ["Islas Baleares", "Illes Balears", "Baleares", "Mallorca", "Menorca", "Ibiza", "Formentera"],
               affiliateText: "⛵ Excursiones a Cabrera",
               affiliateLink: "#",
-              flora: "Las praderas submarinas de Posidonia Oceánica son Patrimonio de la Humanidad. En tierra, pino carrasco, acebuche, encina y matorral mediterráneo. Endemismos notables como el 'socarrell' en zonas batidas por el viento.", 
-              fauna: "Famosa por sus endemismos insulares exclusivos: el Ferreret (sapo partero) y la Lagartija Balear. Importancia crítica para aves marinas como el Virot (Pardela Balear) y el Águila Pescadora.", 
-              parks: "PN Marítimo-Terrestre de Cabrera, PN de S'Albufera de Mallorca, PN de Ses Salines (Ibiza).",
-              images: [{url: "https://via.placeholder.com/400x250?text=BALEARES+1", caption: "Paisaje 1"}, {url: "https://via.placeholder.com/400x250?text=BALEARES+2", caption: "Paisaje 2"}, {url: "https://via.placeholder.com/400x250?text=BALEARES+3", caption: "Paisaje 3"}, {url: "https://via.placeholder.com/400x250?text=BALEARES+4", caption: "Paisaje 4"}]
+              flora: `
+                <h3>El Pulmón Azul y los Arbustos del Viento</h3>
+                <p>El verdadero tesoro botánico de las Baleares se encuentra bajo el mar: las praderas de <strong>Posidonia Oceánica</strong>. Especialmente entre Ibiza y Formentera (Patrimonio de la Humanidad), estas plantas marinas milenarias forman bosques sumergidos que oxigenan el agua y son responsables de ese color turquesa cristalino único en el mundo. En tierra firme, el paisaje cambia según la isla. Ibiza y Formentera son las "Pitiusas" (islas de pinos), cubiertas de un manto verde de <strong>pino carrasco</strong> que llega hasta la orilla del mar.</p>
+
+                <p>En Mallorca, la majestuosa <strong>Serra de Tramuntana</strong> alberga encinares húmedos y endemismos florales únicos como la <em>Paeonia cambessedesii</em>. Por su parte, Menorca (Reserva de la Biosfera) presenta una curiosidad botánica fascinante: los <strong>"socarrells"</strong>. Son arbustos espinosos y compactos con formas de cojín, esculpidos por la fuerza constante del viento de Tramontana y la salinidad, creando paisajes vegetales que parecen jardines zen naturales.</p>
+              `, 
+              fauna: `
+                <h3>Fósiles Vivientes y Dragones Insulares</h3>
+                <p>El aislamiento insular ha convertido a las Baleares en un arca de Noé de especies exclusivas. La joya de la corona es el <strong>Ferreret</strong> (sapo partero balear), un pequeño anfibio que vive en los cañones inaccesibles de la Tramuntana. Lo increíble es que se descubrió primero como fósil y se creía extinto, hasta que se hallaron ejemplares vivos en 1980. En los islotes deshabitados como Sa Dragonera o Cabrera, reinan las <strong>Lagartijas Baleares</strong> (*Podarcis lilfordi*), "pequeños dragones" que han evolucionado en colores negros, verdes o azules según la isla donde vivan.</p>
+
+                <p>El cielo balear es crítico para la conservación europea. Aquí cría la <strong>Pardela Balear</strong> (Virot), el ave marina más amenazada de Europa, que solo nidifica en estas islas. Además, la Serra de Tramuntana es el último gran refugio insular del mundo para el inmenso <strong>Buitre Negro</strong>, cuya población se ha recuperado milagrosamente, compartiendo las térmicas con el Águila Pescadora que patrulla los acantilados de Cabrera.</p>
+              `, 
+              parks: "PN Marítimo-Terrestre de Cabrera, PN S'Albufera de Mallorca, PN Ses Salines, PN S'Albufera des Grau.",
+              images: [
+                {url: "https://via.placeholder.com/400x250?text=BALEARES+1", caption: "Paisaje 1"}, 
+                {url: "https://via.placeholder.com/400x250?text=BALEARES+2", caption: "Paisaje 2"}, 
+                {url: "https://via.placeholder.com/400x250?text=BALEARES+3", caption: "Paisaje 3"}, 
+                {url: "https://via.placeholder.com/400x250?text=BALEARES+4", caption: "Paisaje 4"}
+              ]
             },
 
             // CANARIAS
