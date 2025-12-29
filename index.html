@@ -63,6 +63,7 @@
                 /* CAMBIOS CLAVE: */
                 display: block;      /* Quitamos flex para que sea un bloque normal */
                 overflow-y: auto;    /* El scroll lo tiene ahora la caja entera */
+transition: height 0.4s ease-in-out;
             }
 
             /* Para que el título se quede fijo arriba mientras bajas (Opcional, queda mejor) */
@@ -70,15 +71,23 @@
                 position: sticky;
                 top: 0;
                 z-index: 10;
+		cursor: pointer;
             }
 
-            #map { width: 100%; height: 50vh; }
+            #map { width: 100%; height: 50vh; transition: height 0.4s ease-in-out;}
+body.modo-lectura #sidebar {
+                height: 80vh !important; /* El panel crece mucho */
+            }
+            body.modo-lectura #map {
+                height: 20vh !important; /* El mapa se queda pequeñito arriba */
+            }
 
             /* El contenido ya no recorta, se estira hacia abajo */
             #content { 
                 padding: 20px; 
                 overflow: visible; 
-                height: auto; 
+                height: auto;
+		
             }
             
             .province-img { height: 90px; }
@@ -1647,6 +1656,14 @@
         }
 
         function showInfo(mapName) {
+// --- NUEVO: SI ESTÁS EN MÓVIL, ACTIVA MODO LECTURA ---
+            if (window.innerWidth < 768) {
+                document.body.classList.add('modo-lectura');
+            }
+            // ----------------------------------------------------
+
+            const mapNameNorm = normalize(mapName);
+            // ... (aquí sigue el resto de tu código normal)
             const mapNameNorm = normalize(mapName);
             
             // BUSCADOR INTELIGENTE
@@ -1853,6 +1870,19 @@
         });
     });
 
+// Si tocas la cabecera verde ("NATURALEZA DE ESPAÑA"), el panel baja para ver el mapa
+        document.getElementById('header').addEventListener('click', function() {
+            if (window.innerWidth < 768) {
+                document.body.classList.remove('modo-lectura');
+            }
+        });
+
+        // Si tocas el trocito de mapa que queda visible, también baja
+        map.on('click', function() {
+            if (window.innerWidth < 768) {
+                document.body.classList.remove('modo-lectura');
+            }
+        });
 </script>
 <script async data-id="101498909" src="//static.getclicky.com/js"></script>
 
