@@ -1699,12 +1699,52 @@
             }
         }
 
-        // --- NUEVA LÓGICA DE HASHES (DETECTAR # EN LA URL) ---
+       // --- LÓGICA DE NAVEGACIÓN MEJORADA (Sustituye a tu checkHash actual) ---
         function checkHash() {
             var hash = window.location.hash.substring(1); // Quita el #
+            
             if (hash) {
+                // CASO 1: Si hay provincia en la URL (ej: #Madrid)
                 var provinceName = decodeURIComponent(hash);
                 showInfo(provinceName);
+            } else {
+                // CASO 2: Si NO hay nada (hemos vuelto al inicio) -> RESTAURAMOS TODO
+                
+                // 1. Restauramos el mensaje de bienvenida y el mapa
+                document.getElementById('content').innerHTML = `
+                    <div style="text-align: center; color: #b0bec5; margin-top: 30%; padding: 0 20px;">
+                        <h3 style="font-family: 'Montserrat'; font-size: 20px;">Selecciona una provincia</h3>
+                        <p>Toca el mapa para ver la información.</p>
+                    </div>
+                `;
+                
+                // 2. Quitamos el color naranja del mapa
+                map.setView([40.0, -3.7], 6); 
+                map.eachLayer(function (layer) {
+                    if (layer.feature) {
+                        resetHighlight({target: layer});
+                    }
+                });
+
+                // 3. ¡IMPORTANTE! Volvemos a generar el índice de texto para AdSense
+                // (Porque al entrar en una provincia se borró, hay que ponerlo otra vez)
+                const introDiv = document.getElementById('content').querySelector('div');
+                let htmlIndex = `
+                    <div id="seo-index" style="margin-top: 30px; text-align: left; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 20px;">
+                        <h3 style="font-family: 'Montserrat'; font-size: 16px; color: #2e7d32; margin-bottom: 15px;">📖 Índice de Biodiversidad por Provincias</h3>
+                        <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Explora la guía completa de flora, fauna y espacios naturales de España:</p>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                `;
+                provinciasData.forEach(p => {
+                    htmlIndex += `
+                        <a href="#${p.name}" onclick="showInfo('${p.name}')" style="text-decoration: none; display: block; padding: 10px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;">
+                            <strong style="color: #2e7d32; display: block; font-size: 14px;">${p.name}</strong>
+                            <span style="font-size: 12px; color: #7f8c8d;">Flora, fauna y espacios protegidos.</span>
+                        </a>
+                    `;
+                });
+                htmlIndex += '</div></div>';
+                introDiv.innerHTML += htmlIndex;
             }
         }
 
