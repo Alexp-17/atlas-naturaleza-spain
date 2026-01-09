@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flora y Fauna de Madrid - Atlas de España</title>
+    <meta name="description" content="Descubre la naturaleza de Madrid: desde el Águila Imperial en El Pardo hasta la Cabra Montés en la Sierra de Guadarrama. Guía de biodiversidad.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #2e7d32; --accent: #ff9800; }
+        body { margin: 0; font-family: 'Lato', sans-serif; background: #f4f9f4; color: #333; }
+        
+        header { background: linear-gradient(135deg, var(--primary), #1b5e20); color: white; padding: 20px; text-align: center; }
+        h1 { margin: 0; font-family: 'Montserrat', sans-serif; }
+        
+        .container { max-width: 800px; margin: 30px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        h2 { color: #1b5e20; font-family: 'Montserrat', sans-serif; border-bottom: 3px solid #a5d6a7; padding-bottom: 10px; }
+        h3 { color: #e65100; font-family: 'Montserrat', sans-serif; margin-top: 30px; }
+        p { line-height: 1.8; font-size: 16px; color: #444; text-align: justify; }
+        
+        .galeria { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+
+        .btn-volver { display: inline-block; margin-bottom: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
+        
+        footer { text-align: center; margin-top: 50px; padding: 20px; font-size: 12px; color: #666; border-top: 1px solid #ddd; }
+        footer a { color: var(--primary); text-decoration: none; margin: 0 10px; }
+        
+        @media (max-width: 600px) {
+            .galeria { grid-template-columns: 1fr; }
+            .container { padding: 20px; margin: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>NATURALEZA DE MADRID</h1>
+        <p>Atlas interactivo de biodiversidad provincial</p>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn-volver">⬅ Volver al Mapa Interactivo</a>
+
+        <h2>Del Encinar a la Alta Montaña</h2>
+        <p>La biodiversidad madrileña destaca por su marcada <strong>zonación altitudinal</strong>. En la Rampa de la Sierra y la cuenca sedimentaria domina el bosque mediterráneo; el mejor ejemplo es el <strong>Monte de El Pardo</strong>, considerado uno de los encinares adehesados mejor conservados de Europa.</p>
+        
+        <p>Al ganar altura hacia la <strong>Sierra de Guadarrama</strong>, el paisaje cambia radicalmente. Aparecen los robledales y, sobre todo, los extensos bosques de <strong>pino silvestre</strong> (pino de Valsaín) que cubren las laderas. En las cumbres, el frío impone el dominio de los <strong>piornales serranos</strong> y pastizales de alta montaña.</p>
+
+        <p>Una joya botánica imprescindible es el <strong>Hayedo de Montejo</strong>, en la Sierra del Rincón, un bosque relicto de hayas declarado Patrimonio de la Humanidad por su rareza en esta latitud sur.</p>
+
+        <h3>Santuario de Rapaces y Grandes Mamíferos</h3>
+        <p>La biodiversidad animal de Madrid es sorprendente por su cercanía a la gran urbe. El <strong>Monte de El Pardo</strong> actúa como un verdadero "Arca de Noé", albergando densidades excepcionales de <strong>ciervos</strong>, <strong>gamos</strong> y jabalíes. Sin embargo, su mayor tesoro es alado: es uno de los refugios más importantes del mundo para el amenazado <strong>Águila Imperial Ibérica</strong>.</p>
+
+        <p>Hacia las cumbres de la <strong>Sierra de Guadarrama</strong>, especialmente en los riscos de La Pedriza, la protagonista absoluta es la <strong>Cabra Montés</strong>, fácil de observar saltando por el granito. Los cielos del Valle del Lozoya (Rascafría) protegen una inmensa colonia de <strong>Buitre Negro</strong>. Además, en los últimos años se ha confirmado la presencia estable del <strong>Lobo Ibérico</strong> en los pasos de montaña, recuperando su territorio ancestral.</p>
+
+        <div class="galeria">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/La_Pedriza-Sierra-de-Guadarrama-1%40vilanchelo.jpg/640px-La_Pedriza-Sierra-de-Guadarrama-1%40vilanchelo.jpg" alt="La Pedriza">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Querqus_Ilex_Monte_de_El_Pardo_Madrid.jpg/640px-Querqus_Ilex_Monte_de_El_Pardo_Madrid.jpg" alt="Monte de El Pardo">
+        </div>
+
+        <footer>
+            <p>© 2024 Atlas de Flora y Fauna de España.</p>
+            <p>
+                <a href="politica-privacidad.html">Política de Privacidad</a> | 
+                <a href="contacto.html">Contacto</a> |
+                <a href="index.html">Volver al Mapa</a>
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
