@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flora y Fauna de Cantabria - Atlas de España</title>
+    <meta name="description" content="Descubre la naturaleza de Cantabria: el Oso Pardo en Liébana, los bosques del Saja-Besaya y las Marismas de Santoña. Guía de biodiversidad.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #2e7d32; --accent: #ff9800; }
+        body { margin: 0; font-family: 'Lato', sans-serif; background: #f4f9f4; color: #333; }
+        
+        header { background: linear-gradient(135deg, var(--primary), #1b5e20); color: white; padding: 20px; text-align: center; }
+        h1 { margin: 0; font-family: 'Montserrat', sans-serif; }
+        
+        .container { max-width: 800px; margin: 30px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        h2 { color: #1b5e20; font-family: 'Montserrat', sans-serif; border-bottom: 3px solid #a5d6a7; padding-bottom: 10px; }
+        h3 { color: #e65100; font-family: 'Montserrat', sans-serif; margin-top: 30px; }
+        p { line-height: 1.8; font-size: 16px; color: #444; text-align: justify; }
+        
+        .galeria { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+
+        .btn-volver { display: inline-block; margin-bottom: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
+        
+        footer { text-align: center; margin-top: 50px; padding: 20px; font-size: 12px; color: #666; border-top: 1px solid #ddd; }
+        footer a { color: var(--primary); text-decoration: none; margin: 0 10px; }
+        
+        @media (max-width: 600px) {
+            .galeria { grid-template-columns: 1fr; }
+            .container { padding: 20px; margin: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>NATURALEZA DE CANTABRIA</h1>
+        <p>Atlas interactivo de biodiversidad provincial</p>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn-volver">⬅ Volver al Mapa Interactivo</a>
+
+        <h2>El Reino del Bosque Atlántico y el Microclima</h2>
+        <p>Cantabria es la esencia pura de la España Verde. Su columna vertebral es el <strong>Parque Natural Saja-Besaya</strong>, que custodia la mayor extensión de bosque caducifolio de la cordillera. Aquí, inmensos robledales de roble albar y cajiga (*Quercus robur*) se entrelazan con hayedos misteriosos donde la luz apenas toca el suelo, cubierto de musgos y helechos gigantes. Mención especial merece el <strong>Monte Hijedo</strong>, un bosque de cuento de hadas.</p>
+
+        <p>Pero Cantabria es tierra de contrastes. En la comarca de <strong>Liébana</strong>, protegida por los muros calizos de los Picos de Europa, se genera un microclima mediterráneo sorprendente que permite la existencia de alcornocales y el cultivo de la vid. En la costa, destaca el sistema dunar de <strong>Liencres</strong>, donde el pino marítimo fija las arenas, y una rareza exótica única en Europa: el bosque de <strong>Secuoyas del Monte Cabezón</strong>, gigantes rojos plantados en los años 40 que hoy forman un monumento natural impresionante.</p>
+
+        <h3>Tierra de Osos, Salmones y Aves Viajeras</h3>
+        <p>Cantabria es un santuario para el gran emblema de la fauna ibérica: el <strong>Oso Pardo Cantábrico</strong>. Los valles de Liébana, Polaciones y Campoo son corredores vitales donde la población osera se recupera, conviviendo con manadas de Lobo Ibérico. En los riscos verticales de Picos de Europa, el ágil Rebeco es vigilado por el Buitre Leonado y por una joya alada: el <strong>Treparriscos</strong>, un ave de colores carmesí que trepa por las paredes verticales como un escalador.</p>
+
+        <p>En los ríos cristalinos como el Pas o el Asón, el rey es el <strong>Salmón Atlántico</strong>, que remonta las aguas bravas para desovar, atrayendo a nutrias y pescadores. Si miramos a la costa, las <strong>Marismas de Santoña</strong> son el humedal más importante del norte. Es la "estación de servicio" crítica para miles de aves migratorias, siendo el mejor lugar de España para observar a la elegante <strong>Espátula</strong> (*Platalea leucorodia*) en su viaje hacia África.</p>
+
+        <div class="galeria">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Picos_de_Europa_%28Cantabria%29_1975_04.jpg/640px-Picos_de_Europa_%28Cantabria%29_1975_04.jpg" alt="Picos de Europa">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Saja-Besaya%2C_oto%C3%B1o_4.jpg/640px-Saja-Besaya%2C_oto%C3%B1o_4.jpg" alt="Parque Natural Saja-Besaya">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Parque_natural_de_las_Marismas_de_Santo%C3%B1a%2C_Victoria_y_Joyel_01.JPG/640px-Parque_natural_de_las_Marismas_de_Santo%C3%B1a%2C_Victoria_y_Joyel_01.JPG" alt="Marismas de Santoña">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Nacimiento_del_r%C3%ADo_As%C3%B3n_%28Cantabria%29.jpg/640px-Nacimiento_del_r%C3%ADo_As%C3%B3n_%28Cantabria%29.jpg" alt="Nacimiento río Asón">
+        </div>
+
+        <footer>
+            <p>© 2024 Atlas de Flora y Fauna de España.</p>
+            <p>
+                <a href="politica-privacidad.html">Política de Privacidad</a> | 
+                <a href="contacto.html">Contacto</a> |
+                <a href="index.html">Volver al Mapa</a>
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>

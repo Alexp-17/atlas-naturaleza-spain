@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flora y Fauna de Jaén - Atlas de España</title>
+    <meta name="description" content="Explora la biodiversidad de Jaén: Cazorla, Segura y Las Villas. El reino del Quebrantahuesos, el Lince Ibérico y el Pino Salgareño.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #2e7d32; --accent: #ff9800; }
+        body { margin: 0; font-family: 'Lato', sans-serif; background: #f4f9f4; color: #333; }
+        
+        header { background: linear-gradient(135deg, var(--primary), #1b5e20); color: white; padding: 20px; text-align: center; }
+        h1 { margin: 0; font-family: 'Montserrat', sans-serif; }
+        
+        .container { max-width: 800px; margin: 30px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        h2 { color: #1b5e20; font-family: 'Montserrat', sans-serif; border-bottom: 3px solid #a5d6a7; padding-bottom: 10px; }
+        h3 { color: #e65100; font-family: 'Montserrat', sans-serif; margin-top: 30px; }
+        p { line-height: 1.8; font-size: 16px; color: #444; text-align: justify; }
+        
+        .galeria { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+
+        .btn-volver { display: inline-block; margin-bottom: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
+        
+        footer { text-align: center; margin-top: 50px; padding: 20px; font-size: 12px; color: #666; border-top: 1px solid #ddd; }
+        footer a { color: var(--primary); text-decoration: none; margin: 0 10px; }
+        
+        @media (max-width: 600px) {
+            .galeria { grid-template-columns: 1fr; }
+            .container { padding: 20px; margin: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>NATURALEZA DE JAÉN</h1>
+        <p>Atlas interactivo de biodiversidad provincial</p>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn-volver">⬅ Volver al Mapa Interactivo</a>
+
+        <h2>El Gran Pulmón Verde de la Península</h2>
+        <p>Jaén sorprende al mundo con la mayor superficie boscosa continua de España: las Sierras de Cazorla, Segura y Las Villas. Aquí, el rey es el <strong>Pino Salgareño</strong> (o Laricio), cuyos troncos rectos y altísimos han servido históricamente para mástiles de barcos. Estos pinares se mezclan con encinares, robles melojos y zonas de arce granadino, creando un océano verde infinito.</p>
+
+        <p>La riqueza botánica es tal que alberga endemismos únicos en el planeta, como la <strong>Violeta de Cazorla</strong> (*Viola cazorlensis*), una flor rosa delicada que solo crece en las grietas de la roca caliza de estas sierras, o el Narciso de Cazorla. En Sierra Mágina, aislada como una isla ecológica, se encuentran tejos milenarios y sabinas rastreras en las cumbres, testigos de tiempos más fríos.</p>
+
+        <h3>El Regreso del Quebrantahuesos y la Caza Mayor</h3>
+        <p>Jaén es el escenario de un éxito mundial de conservación: la reintroducción del <strong>Quebrantahuesos</strong>. Esta enorme ave carroñera vuelve a surcar los cielos de Cazorla y Segura, rompiendo huesos desde el aire. Comparte las térmicas con una densidad altísima de Buitre Leonado y Águila Real. Pero lo que más llama la atención al visitante es la abundancia de ungulados: es muy fácil ver Ciervos, Gamos, Muflones y Cabra Montés en libertad, a menudo al borde de las carreteras.</p>
+
+        <p>Entre los reptiles, destaca un endemismo exclusivo: la <strong>Lagartija de Valverde</strong>, descubierta en estas sierras. Y no podemos olvidar al Lince Ibérico, cuya población en el Parque Natural de Sierra de Andújar es la más densa y estable del mundo, siendo el mejor lugar del planeta para intentar avistar a este felino fantasma en libertad.</p>
+
+        <div class="galeria">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/R45.jpg/1200px-R45.jpg?20150301124519" alt="Sierras de Cazorla, Segura y Las Villas">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Parque_natural_Sierra_de_And%C3%BAjar_24J_01.jpg/640px-Parque_natural_Sierra_de_And%C3%BAjar_24J_01.jpg" alt="Sierra de Andújar">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Parque_Despe%C3%B1aperros1.JPG/640px-Parque_Despe%C3%B1aperros1.JPG" alt="Despeñaperros">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Bartgeier_Gypaetus_barbatus_front_Richard_Bartz.jpg/640px-Bartgeier_Gypaetus_barbatus_front_Richard_Bartz.jpg" alt="Quebrantahuesos">
+        </div>
+
+        <footer>
+            <p>© 2024 Atlas de Flora y Fauna de España.</p>
+            <p>
+                <a href="politica-privacidad.html">Política de Privacidad</a> | 
+                <a href="contacto.html">Contacto</a> |
+                <a href="index.html">Volver al Mapa</a>
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
